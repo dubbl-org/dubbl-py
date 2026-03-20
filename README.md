@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/dubbl-org/dubbl/main/public/logo.png" alt="Dubbl" width="64" height="52" />
+<img src="logo.svg" alt="Dubbl" width="80" height="64" />
 
 # dubbl
 
