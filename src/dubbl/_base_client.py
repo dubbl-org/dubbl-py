@@ -14,7 +14,7 @@ from ._exceptions import (
 from ._types import Body, Headers, QueryParams
 from ._version import __version__
 
-DEFAULT_BASE_URL = "https://app.dubbl.dev"
+DEFAULT_BASE_URL = "https://dubbl.dev"
 DEFAULT_TIMEOUT = 60.0
 DEFAULT_MAX_RETRIES = 2
 

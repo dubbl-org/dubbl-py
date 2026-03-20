@@ -75,7 +75,7 @@ asyncio.run(main())
 client = dubbl.Dubbl(
     api_key="dk_live_...",          # or set DUBBL_API_KEY env var
     organization_id="org_...",      # or set DUBBL_ORGANIZATION_ID env var
-    base_url="https://app.dubbl.dev",  # or set DUBBL_BASE_URL env var
+    base_url="https://dubbl.dev",       # or set DUBBL_BASE_URL env var
     timeout=30.0,                   # request timeout in seconds (default: 60)
     max_retries=3,                  # retry attempts for transient errors (default: 2)
 )
