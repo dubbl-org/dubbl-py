@@ -90,7 +90,7 @@ If the Dubbl API adds a new resource, follow these steps:
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/dubbldev/dubbl-py/issues) for bug reports and feature requests
+- Use [GitHub Issues](https://github.com/dubbl-org/dubbl-py/issues) for bug reports and feature requests
 - Include Python version, SDK version, and a minimal reproducible example
 
 ## Code of Conduct

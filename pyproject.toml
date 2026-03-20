@@ -46,9 +46,9 @@ dev = [
 [project.urls]
 Homepage = "https://dubbl.dev"
 Documentation = "https://docs.dubbl.dev"
-Repository = "https://github.com/dubbldev/dubbl-py"
-Changelog = "https://github.com/dubbldev/dubbl-py/blob/main/CHANGELOG.md"
-"Bug Tracker" = "https://github.com/dubbldev/dubbl-py/issues"
+Repository = "https://github.com/dubbl-org/dubbl-py"
+Changelog = "https://github.com/dubbl-org/dubbl-py/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/dubbl-org/dubbl-py/issues"
 
 [tool.hatch.version]
 path = "src/dubbl/_version.py"

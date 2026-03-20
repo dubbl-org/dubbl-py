@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/dubbl-org/dubbl/main/public/logo.png" alt="Dubbl" width="64" height="52" />
+
 # dubbl
 
 **Official Python SDK for the [Dubbl](https://dubbl.dev) double-entry bookkeeping API**
@@ -7,7 +9,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/dubbl.svg)](https://pypi.org/project/dubbl/)
 [![Python versions](https://img.shields.io/pypi/pyversions/dubbl.svg)](https://pypi.org/project/dubbl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![CI](https://github.com/dubbldev/dubbl-py/actions/workflows/ci.yml/badge.svg)](https://github.com/dubbldev/dubbl-py/actions/workflows/ci.yml)
+[![CI](https://github.com/dubbl-org/dubbl-py/actions/workflows/ci.yml/badge.svg)](https://github.com/dubbl-org/dubbl-py/actions/workflows/ci.yml)
 [![Typed](https://img.shields.io/badge/typing-typed-blue.svg)](https://peps.python.org/pep-0561/)
 
 </div>
