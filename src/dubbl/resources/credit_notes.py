@@ -29,6 +29,19 @@ class CreditNotes:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/credit-notes/{id}")
 
+    def summary(self, **params: Any) -> Any:
+        return self._client.get("/credit-notes/summary", params={k: v for k, v in params.items() if v is not None})
+
+    def apply(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/credit-notes/{id}/apply", json=body)
+
+    def send(self, id: str) -> Any:
+        return self._client.post(f"/credit-notes/{id}/send")
+
+    def void(self, id: str) -> Any:
+        return self._client.post(f"/credit-notes/{id}/void")
+
 
 class AsyncCreditNotes:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +61,16 @@ class AsyncCreditNotes:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/credit-notes/{id}")
+
+    async def summary(self, **params: Any) -> Any:
+        return await self._client.get("/credit-notes/summary", params={k: v for k, v in params.items() if v is not None})
+
+    async def apply(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/credit-notes/{id}/apply", json=body)
+
+    async def send(self, id: str) -> Any:
+        return await self._client.post(f"/credit-notes/{id}/send")
+
+    async def void(self, id: str) -> Any:
+        return await self._client.post(f"/credit-notes/{id}/void")

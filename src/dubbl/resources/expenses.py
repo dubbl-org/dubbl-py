@@ -57,6 +57,12 @@ class Expenses:
     def pay(self, expense_id: str) -> Any:
         return self._client.post(f"/expenses/{expense_id}/pay")
 
+    def counts(self, **params: Any) -> Any:
+        return self._client.get("/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def receipt_url(self, **params: Any) -> Any:
+        return self._client.get("/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
 
 class AsyncExpenses:
     """Manage expenses (async)."""
@@ -104,3 +110,9 @@ class AsyncExpenses:
 
     async def pay(self, expense_id: str) -> Any:
         return await self._client.post(f"/expenses/{expense_id}/pay")
+
+    async def counts(self, **params: Any) -> Any:
+        return await self._client.get("/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def receipt_url(self, **params: Any) -> Any:
+        return await self._client.get("/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None})

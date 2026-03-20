@@ -29,6 +29,12 @@ class FiscalYears:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/fiscal-years/{id}")
 
+    def close(self, id: str) -> Any:
+        return self._client.post(f"/fiscal-years/{id}/close")
+
+    def reopen(self, id: str) -> Any:
+        return self._client.post(f"/fiscal-years/{id}/reopen")
+
 
 class AsyncFiscalYears:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +54,9 @@ class AsyncFiscalYears:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/fiscal-years/{id}")
+
+    async def close(self, id: str) -> Any:
+        return await self._client.post(f"/fiscal-years/{id}/close")
+
+    async def reopen(self, id: str) -> Any:
+        return await self._client.post(f"/fiscal-years/{id}/reopen")

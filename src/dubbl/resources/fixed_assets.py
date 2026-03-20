@@ -29,6 +29,17 @@ class FixedAssets:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/fixed-assets/{id}")
 
+    def depreciate(self, id: str) -> Any:
+        return self._client.post(f"/fixed-assets/{id}/depreciate")
+
+    def dispose(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/fixed-assets/{id}/dispose", json=body)
+
+    def run_depreciation(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/fixed-assets/run-depreciation", json=body)
+
 
 class AsyncFixedAssets:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +59,14 @@ class AsyncFixedAssets:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/fixed-assets/{id}")
+
+    async def depreciate(self, id: str) -> Any:
+        return await self._client.post(f"/fixed-assets/{id}/depreciate")
+
+    async def dispose(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/fixed-assets/{id}/dispose", json=body)
+
+    async def run_depreciation(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/fixed-assets/run-depreciation", json=body)

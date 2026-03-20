@@ -15,6 +15,12 @@ class Trash:
     def restore(self, item_id: str) -> Any:
         return self._client.post(f"/trash/{item_id}/restore")
 
+    def permanent_delete(self, id: str) -> Any:
+        return self._client.delete(f"/trash/{id}")
+
+    def empty(self) -> Any:
+        return self._client.post("/trash/empty")
+
 
 class AsyncTrash:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -25,3 +31,9 @@ class AsyncTrash:
 
     async def restore(self, item_id: str) -> Any:
         return await self._client.post(f"/trash/{item_id}/restore")
+
+    async def permanent_delete(self, id: str) -> Any:
+        return await self._client.delete(f"/trash/{id}")
+
+    async def empty(self) -> Any:
+        return await self._client.post("/trash/empty")

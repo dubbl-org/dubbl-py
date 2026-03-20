@@ -18,6 +18,16 @@ class Backups:
     def restore(self, backup_id: str) -> Any:
         return self._client.post(f"/backups/{backup_id}/restore")
 
+    def download(self, backup_id: str) -> Any:
+        return self._client.post(f"/backups/{backup_id}/download")
+
+    def upload(self, **kwargs: Any) -> Any:
+        body = {k: v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/backups/upload", json=body)
+
+    def download_snapshot(self, **params: Any) -> Any:
+        return self._client.get("/backups/download-snapshot", params={k: v for k, v in params.items() if v is not None}, raw_response=True)
+
 
 class AsyncBackups:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -31,3 +41,13 @@ class AsyncBackups:
 
     async def restore(self, backup_id: str) -> Any:
         return await self._client.post(f"/backups/{backup_id}/restore")
+
+    async def download(self, backup_id: str) -> Any:
+        return await self._client.post(f"/backups/{backup_id}/download")
+
+    async def upload(self, **kwargs: Any) -> Any:
+        body = {k: v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/backups/upload", json=body)
+
+    async def download_snapshot(self, **params: Any) -> Any:
+        return await self._client.get("/backups/download-snapshot", params={k: v for k, v in params.items() if v is not None}, raw_response=True)

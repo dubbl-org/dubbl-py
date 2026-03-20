@@ -111,6 +111,15 @@ class Invoices:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/invoices/{invoice_id}/signature", json=body)
 
+    def snapshot(self, invoice_id: str) -> Any:
+        return self._client.get(f"/invoices/{invoice_id}/snapshot")
+
+    def compliance(self, invoice_id: str) -> Any:
+        return self._client.get(f"/invoices/{invoice_id}/compliance")
+
+    def resend_signature(self, invoice_id: str) -> Any:
+        return self._client.post(f"/invoices/{invoice_id}/signature/resend")
+
 
 class AsyncInvoices:
     """Manage invoices (async)."""
@@ -212,3 +221,12 @@ class AsyncInvoices:
     async def signature_create(self, invoice_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/invoices/{invoice_id}/signature", json=body)
+
+    async def snapshot(self, invoice_id: str) -> Any:
+        return await self._client.get(f"/invoices/{invoice_id}/snapshot")
+
+    async def compliance(self, invoice_id: str) -> Any:
+        return await self._client.get(f"/invoices/{invoice_id}/compliance")
+
+    async def resend_signature(self, invoice_id: str) -> Any:
+        return await self._client.post(f"/invoices/{invoice_id}/signature/resend")

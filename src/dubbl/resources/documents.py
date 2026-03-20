@@ -29,6 +29,26 @@ class Documents:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/documents/{id}")
 
+    def download(self, id: str) -> Any:
+        return self._client.get(f"/documents/{id}/download", raw_response=True)
+
+    def list_folders(self, **params: Any) -> Any:
+        return self._client.get("/documents/folders", params={k: v for k, v in params.items() if v is not None})
+
+    def create_folder(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/documents/folders", json=body)
+
+    def retrieve_folder(self, id: str) -> Any:
+        return self._client.get(f"/documents/folders/{id}")
+
+    def update_folder(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/documents/folders/{id}", json=body)
+
+    def delete_folder(self, id: str) -> Any:
+        return self._client.delete(f"/documents/folders/{id}")
+
 
 class AsyncDocuments:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +68,23 @@ class AsyncDocuments:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/documents/{id}")
+
+    async def download(self, id: str) -> Any:
+        return await self._client.get(f"/documents/{id}/download", raw_response=True)
+
+    async def list_folders(self, **params: Any) -> Any:
+        return await self._client.get("/documents/folders", params={k: v for k, v in params.items() if v is not None})
+
+    async def create_folder(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/documents/folders", json=body)
+
+    async def retrieve_folder(self, id: str) -> Any:
+        return await self._client.get(f"/documents/folders/{id}")
+
+    async def update_folder(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/documents/folders/{id}", json=body)
+
+    async def delete_folder(self, id: str) -> Any:
+        return await self._client.delete(f"/documents/folders/{id}")

@@ -36,6 +36,9 @@ class Members:
     def remove_access(self, member_id: str) -> Any:
         return self._client.post(f"/members/{member_id}/remove-access")
 
+    def capacity(self) -> Any:
+        return self._client.get("/members/capacity")
+
 
 class AsyncMembers:
     """Manage members (async)."""
@@ -62,3 +65,6 @@ class AsyncMembers:
 
     async def remove_access(self, member_id: str) -> Any:
         return await self._client.post(f"/members/{member_id}/remove-access")
+
+    async def capacity(self) -> Any:
+        return await self._client.get("/members/capacity")

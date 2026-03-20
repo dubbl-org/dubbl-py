@@ -29,6 +29,15 @@ class Recurring:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/recurring/{id}")
 
+    def summary(self, **params: Any) -> Any:
+        return self._client.get("/recurring/summary", params={k: v for k, v in params.items() if v is not None})
+
+    def pause(self, id: str) -> Any:
+        return self._client.post(f"/recurring/{id}/pause")
+
+    def preview(self, id: str) -> Any:
+        return self._client.get(f"/recurring/{id}/preview")
+
 
 class AsyncRecurring:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +57,12 @@ class AsyncRecurring:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/recurring/{id}")
+
+    async def summary(self, **params: Any) -> Any:
+        return await self._client.get("/recurring/summary", params={k: v for k, v in params.items() if v is not None})
+
+    async def pause(self, id: str) -> Any:
+        return await self._client.post(f"/recurring/{id}/pause")
+
+    async def preview(self, id: str) -> Any:
+        return await self._client.get(f"/recurring/{id}/preview")

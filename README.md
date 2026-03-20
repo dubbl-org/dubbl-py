@@ -14,7 +14,7 @@
 
 ---
 
-The Dubbl Python SDK provides a convenient, fully-typed interface to the [Dubbl API](https://docs.dubbl.dev) — an open-source, double-entry bookkeeping platform. Both **synchronous** and **asynchronous** clients are included.
+The Dubbl Python SDK provides a convenient, fully-typed interface to the [Dubbl API](https://docs.dubbl.dev) — an open-source, double-entry bookkeeping platform with 70+ resource endpoints. Both **synchronous** and **asynchronous** clients are included.
 
 ## Installation
 
@@ -89,7 +89,7 @@ client = dubbl.Dubbl(
 
 ## Resources
 
-The SDK provides access to all Dubbl API resources:
+The SDK provides access to all 73 Dubbl API resources:
 
 ### Core Bookkeeping
 
@@ -98,9 +98,11 @@ The SDK provides access to all Dubbl API resources:
 | `client.accounts` | Chart of accounts management |
 | `client.entries` | Journal entries (create, post, void) |
 | `client.fiscal_years` | Fiscal year management |
-| `client.tax_rates` | Tax rate configuration |
 | `client.cost_centers` | Cost center tracking |
 | `client.budgets` | Budget creation and tracking |
+| `client.fixed_assets` | Fixed asset management and depreciation |
+| `client.opening_balances` | Opening balance management |
+| `client.period_lock` | Period lock management |
 
 ### Sales & Purchasing
 
@@ -110,8 +112,15 @@ The SDK provides access to all Dubbl API resources:
 | `client.bills` | Bill management (create, approve, pay, void) |
 | `client.quotes` | Quote management (create, send, accept, convert) |
 | `client.credit_notes` | Credit note management |
-| `client.purchase_orders` | Purchase order management |
+| `client.debit_notes` | Debit note management |
 | `client.recurring` | Recurring invoices and expenses |
+
+### Purchasing
+
+| Resource | Description |
+|----------|-------------|
+| `client.purchase_orders` | Purchase order management |
+| `client.purchase_requisitions` | Purchase requisitions with approval flow |
 
 ### Contacts & Payments
 
@@ -126,20 +135,38 @@ The SDK provides access to all Dubbl API resources:
 |----------|-------------|
 | `client.bank_accounts` | Bank account management |
 | `client.bank_transactions` | Transaction reconciliation, matching, splitting |
+| `client.bank_rules` | Bank transaction matching rules |
+| `client.bank_imports` | Bank statement import |
 
 ### Expenses & Inventory
 
 | Resource | Description |
 |----------|-------------|
 | `client.expenses` | Expense claims (submit, approve, pay) |
-| `client.inventory` | Inventory items, categories, stock takes, assemblies |
-| `client.fixed_assets` | Fixed asset management and depreciation |
+
+### Inventory & Warehousing
+
+| Resource | Description |
+|----------|-------------|
+| `client.inventory` | Full inventory (items, variants, lots, serials, BOMs, assemblies) |
+| `client.warehouses` | Warehouse management and stock tracking |
+| `client.stock_takes` | Stock take management |
+
+### Tax & Compliance
+
+| Resource | Description |
+|----------|-------------|
+| `client.tax_rates` | Tax rate configuration |
+| `client.tax_periods` | Tax period management and filing |
+| `client.tax_lookup` | Tax lookup service |
+| `client.exchange_rates` | Exchange rate management |
 
 ### Reports
 
 | Resource | Description |
 |----------|-------------|
 | `client.reports` | Financial reports (P&L, balance sheet, cash flow, etc.) |
+| `client.report_schedules` | Scheduled report delivery |
 
 ```python
 # Trial balance
@@ -160,22 +187,73 @@ report = client.reports.run(
 )
 ```
 
-### Organization & Settings
+### Payroll & HR
+
+| Resource | Description |
+|----------|-------------|
+| `client.payroll` | Full payroll management (employees, pay runs, timesheets, leave, contractors, tax) |
+
+### CRM
+
+| Resource | Description |
+|----------|-------------|
+| `client.crm` | CRM deals, pipelines, and activities |
+
+### Documents & Communication
+
+| Resource | Description |
+|----------|-------------|
+| `client.documents` | Document storage and folders |
+| `client.document_templates` | Document templates |
+| `client.document_emails` | Document email sending |
+| `client.email_config` | Email configuration |
+| `client.attachments` | File attachments (pre-signed uploads) |
+| `client.notifications` | Notification management |
+| `client.reminders` | Payment reminders |
+| `client.reminder_rules` | Reminder rule configuration |
+
+### Organization & Team
 
 | Resource | Description |
 |----------|-------------|
 | `client.organization` | Organization settings |
 | `client.members` | Team member management |
 | `client.roles` | Role and permission management |
-| `client.api_keys` | API key management |
-| `client.webhooks` | Webhook configuration |
+| `client.teams` | Team management |
+| `client.invitations` | Member invitations |
+| `client.invite_links` | Invite link management |
+| `client.advisors` | Advisor access management |
+| `client.sessions` | Session management |
+| `client.portal` | Customer/supplier portal access |
+| `client.approval_workflows` | Approval workflow configuration |
+| `client.approval_requests` | Approval request management |
+
+### Billing & Payments
+
+| Resource | Description |
+|----------|-------------|
+| `client.billing` | Subscription billing management |
+| `client.payment_batches` | Payment batch processing |
+| `client.scheduled_payments` | Scheduled payment management |
+
+### Advanced Features
+
+| Resource | Description |
+|----------|-------------|
+| `client.bulk` | Bulk import, export, and batch operations |
+| `client.consolidation` | Multi-entity consolidation groups and reports |
+| `client.dashboard` | Dashboard layouts, widgets, and alerts |
+| `client.workflows` | Automation workflows |
+| `client.ocr` | Receipt OCR extraction |
+| `client.loans` | Loan management |
+| `client.landed_costs` | Landed cost allocation |
+| `client.accrual_schedules` | Accrual schedule management |
+| `client.revenue_schedules` | Revenue recognition schedules |
 
 ### Data Management
 
 | Resource | Description |
 |----------|-------------|
-| `client.documents` | Document storage |
-| `client.attachments` | File attachments (pre-signed uploads) |
 | `client.tags` | Tag management |
 | `client.audit_log` | Audit trail |
 | `client.trash` | Soft-deleted item recovery |
@@ -183,6 +261,8 @@ report = client.reports.run(
 | `client.backups` | Backup and restore |
 | `client.user` | Current user profile |
 | `client.projects` | Project and time tracking |
+| `client.api_keys` | API key management |
+| `client.webhooks` | Webhook configuration |
 
 ## Error Handling
 

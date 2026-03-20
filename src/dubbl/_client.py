@@ -37,6 +37,46 @@ from .resources.trash import Trash, AsyncTrash
 from .resources.export import Export, AsyncExport
 from .resources.backups import Backups, AsyncBackups
 from .resources.user import User, AsyncUser
+from .resources.payroll import Payroll, AsyncPayroll
+from .resources.crm import CRM, AsyncCRM
+from .resources.bulk import Bulk, AsyncBulk
+from .resources.consolidation import Consolidation, AsyncConsolidation
+from .resources.dashboard import Dashboard, AsyncDashboard
+from .resources.debit_notes import DebitNotes, AsyncDebitNotes
+from .resources.document_emails import DocumentEmails, AsyncDocumentEmails
+from .resources.document_templates import DocumentTemplates, AsyncDocumentTemplates
+from .resources.email_config import EmailConfig, AsyncEmailConfig
+from .resources.exchange_rates import ExchangeRates, AsyncExchangeRates
+from .resources.bank_rules import BankRules, AsyncBankRules
+from .resources.bank_imports import BankImports, AsyncBankImports
+from .resources.approval_workflows import ApprovalWorkflows, AsyncApprovalWorkflows
+from .resources.approval_requests import ApprovalRequests, AsyncApprovalRequests
+from .resources.notifications import Notifications, AsyncNotifications
+from .resources.ocr import OCR, AsyncOCR
+from .resources.opening_balances import OpeningBalances, AsyncOpeningBalances
+from .resources.payment_batches import PaymentBatches, AsyncPaymentBatches
+from .resources.period_lock import PeriodLock, AsyncPeriodLock
+from .resources.portal import Portal, AsyncPortal
+from .resources.purchase_requisitions import PurchaseRequisitions, AsyncPurchaseRequisitions
+from .resources.reminders import Reminders, AsyncReminders
+from .resources.reminder_rules import ReminderRules, AsyncReminderRules
+from .resources.report_schedules import ReportSchedules, AsyncReportSchedules
+from .resources.revenue_schedules import RevenueSchedules, AsyncRevenueSchedules
+from .resources.accrual_schedules import AccrualSchedules, AsyncAccrualSchedules
+from .resources.scheduled_payments import ScheduledPayments, AsyncScheduledPayments
+from .resources.sessions import Sessions, AsyncSessions
+from .resources.stock_takes import StockTakes, AsyncStockTakes
+from .resources.tax_periods import TaxPeriods, AsyncTaxPeriods
+from .resources.teams import Teams, AsyncTeams
+from .resources.warehouses import Warehouses, AsyncWarehouses
+from .resources.workflows import Workflows, AsyncWorkflows
+from .resources.loans import Loans, AsyncLoans
+from .resources.landed_costs import LandedCosts, AsyncLandedCosts
+from .resources.invitations import Invitations, AsyncInvitations
+from .resources.invite_links import InviteLinks, AsyncInviteLinks
+from .resources.advisors import Advisors, AsyncAdvisors
+from .resources.billing import Billing, AsyncBilling
+from .resources.tax_lookup import TaxLookup, AsyncTaxLookup
 
 
 class Dubbl:
@@ -104,6 +144,46 @@ class Dubbl:
         self.export = Export(self._client)
         self.backups = Backups(self._client)
         self.user = User(self._client)
+        self.payroll = Payroll(self._client)
+        self.crm = CRM(self._client)
+        self.bulk = Bulk(self._client)
+        self.consolidation = Consolidation(self._client)
+        self.dashboard = Dashboard(self._client)
+        self.debit_notes = DebitNotes(self._client)
+        self.document_emails = DocumentEmails(self._client)
+        self.document_templates = DocumentTemplates(self._client)
+        self.email_config = EmailConfig(self._client)
+        self.exchange_rates = ExchangeRates(self._client)
+        self.bank_rules = BankRules(self._client)
+        self.bank_imports = BankImports(self._client)
+        self.approval_workflows = ApprovalWorkflows(self._client)
+        self.approval_requests = ApprovalRequests(self._client)
+        self.notifications = Notifications(self._client)
+        self.ocr = OCR(self._client)
+        self.opening_balances = OpeningBalances(self._client)
+        self.payment_batches = PaymentBatches(self._client)
+        self.period_lock = PeriodLock(self._client)
+        self.portal = Portal(self._client)
+        self.purchase_requisitions = PurchaseRequisitions(self._client)
+        self.reminders = Reminders(self._client)
+        self.reminder_rules = ReminderRules(self._client)
+        self.report_schedules = ReportSchedules(self._client)
+        self.revenue_schedules = RevenueSchedules(self._client)
+        self.accrual_schedules = AccrualSchedules(self._client)
+        self.scheduled_payments = ScheduledPayments(self._client)
+        self.sessions = Sessions(self._client)
+        self.stock_takes = StockTakes(self._client)
+        self.tax_periods = TaxPeriods(self._client)
+        self.teams = Teams(self._client)
+        self.warehouses = Warehouses(self._client)
+        self.workflows = Workflows(self._client)
+        self.loans = Loans(self._client)
+        self.landed_costs = LandedCosts(self._client)
+        self.invitations = Invitations(self._client)
+        self.invite_links = InviteLinks(self._client)
+        self.advisors = Advisors(self._client)
+        self.billing = Billing(self._client)
+        self.tax_lookup = TaxLookup(self._client)
 
     def close(self) -> None:
         """Close the underlying HTTP client."""
@@ -181,6 +261,46 @@ class AsyncDubbl:
         self.export = AsyncExport(self._client)
         self.backups = AsyncBackups(self._client)
         self.user = AsyncUser(self._client)
+        self.payroll = AsyncPayroll(self._client)
+        self.crm = AsyncCRM(self._client)
+        self.bulk = AsyncBulk(self._client)
+        self.consolidation = AsyncConsolidation(self._client)
+        self.dashboard = AsyncDashboard(self._client)
+        self.debit_notes = AsyncDebitNotes(self._client)
+        self.document_emails = AsyncDocumentEmails(self._client)
+        self.document_templates = AsyncDocumentTemplates(self._client)
+        self.email_config = AsyncEmailConfig(self._client)
+        self.exchange_rates = AsyncExchangeRates(self._client)
+        self.bank_rules = AsyncBankRules(self._client)
+        self.bank_imports = AsyncBankImports(self._client)
+        self.approval_workflows = AsyncApprovalWorkflows(self._client)
+        self.approval_requests = AsyncApprovalRequests(self._client)
+        self.notifications = AsyncNotifications(self._client)
+        self.ocr = AsyncOCR(self._client)
+        self.opening_balances = AsyncOpeningBalances(self._client)
+        self.payment_batches = AsyncPaymentBatches(self._client)
+        self.period_lock = AsyncPeriodLock(self._client)
+        self.portal = AsyncPortal(self._client)
+        self.purchase_requisitions = AsyncPurchaseRequisitions(self._client)
+        self.reminders = AsyncReminders(self._client)
+        self.reminder_rules = AsyncReminderRules(self._client)
+        self.report_schedules = AsyncReportSchedules(self._client)
+        self.revenue_schedules = AsyncRevenueSchedules(self._client)
+        self.accrual_schedules = AsyncAccrualSchedules(self._client)
+        self.scheduled_payments = AsyncScheduledPayments(self._client)
+        self.sessions = AsyncSessions(self._client)
+        self.stock_takes = AsyncStockTakes(self._client)
+        self.tax_periods = AsyncTaxPeriods(self._client)
+        self.teams = AsyncTeams(self._client)
+        self.warehouses = AsyncWarehouses(self._client)
+        self.workflows = AsyncWorkflows(self._client)
+        self.loans = AsyncLoans(self._client)
+        self.landed_costs = AsyncLandedCosts(self._client)
+        self.invitations = AsyncInvitations(self._client)
+        self.invite_links = AsyncInviteLinks(self._client)
+        self.advisors = AsyncAdvisors(self._client)
+        self.billing = AsyncBilling(self._client)
+        self.tax_lookup = AsyncTaxLookup(self._client)
 
     async def close(self) -> None:
         """Close the underlying HTTP client."""

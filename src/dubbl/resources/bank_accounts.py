@@ -57,10 +57,25 @@ class BankAccounts:
 
     def import_transactions(self, bank_account_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.post(f"/bank-accounts/{bank_account_id}/import", json=body)
+        return self._client.post(f"/bank-accounts/{bank_account_id}/transactions/import", json=body)
 
     def sync(self, bank_account_id: str) -> Any:
         return self._client.post(f"/bank-accounts/{bank_account_id}/sync")
+
+    def list_transactions(self, bank_account_id: str, **params: Any) -> Any:
+        return self._client.get(f"/bank-accounts/{bank_account_id}/transactions", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def list_reconciliations(self, bank_account_id: str) -> Any:
+        return self._client.get(f"/bank-accounts/{bank_account_id}/reconciliations")
+
+    def list_imports(self, bank_account_id: str) -> Any:
+        return self._client.get(f"/bank-accounts/{bank_account_id}/imports")
+
+    def find_duplicates(self, bank_account_id: str) -> Any:
+        return self._client.get(f"/bank-accounts/{bank_account_id}/duplicates")
+
+    def validate_balance(self, bank_account_id: str) -> Any:
+        return self._client.post(f"/bank-accounts/{bank_account_id}/validate-balance")
 
 
 class AsyncBankAccounts:
@@ -110,7 +125,22 @@ class AsyncBankAccounts:
 
     async def import_transactions(self, bank_account_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.post(f"/bank-accounts/{bank_account_id}/import", json=body)
+        return await self._client.post(f"/bank-accounts/{bank_account_id}/transactions/import", json=body)
 
     async def sync(self, bank_account_id: str) -> Any:
         return await self._client.post(f"/bank-accounts/{bank_account_id}/sync")
+
+    async def list_transactions(self, bank_account_id: str, **params: Any) -> Any:
+        return await self._client.get(f"/bank-accounts/{bank_account_id}/transactions", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def list_reconciliations(self, bank_account_id: str) -> Any:
+        return await self._client.get(f"/bank-accounts/{bank_account_id}/reconciliations")
+
+    async def list_imports(self, bank_account_id: str) -> Any:
+        return await self._client.get(f"/bank-accounts/{bank_account_id}/imports")
+
+    async def find_duplicates(self, bank_account_id: str) -> Any:
+        return await self._client.get(f"/bank-accounts/{bank_account_id}/duplicates")
+
+    async def validate_balance(self, bank_account_id: str) -> Any:
+        return await self._client.post(f"/bank-accounts/{bank_account_id}/validate-balance")

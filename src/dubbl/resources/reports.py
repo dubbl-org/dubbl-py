@@ -105,6 +105,42 @@ class Reports:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/reports/schedules", json=body)
 
+    def cash_flow_forecast(self, **params: Any) -> Any:
+        return self._client.get("/reports/cash-flow-forecast", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def payment_performance(self, **params: Any) -> Any:
+        return self._client.get("/reports/payment-performance", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def tax_summary(self, **params: Any) -> Any:
+        return self._client.get("/reports/tax-summary", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def profitability(self, **params: Any) -> Any:
+        return self._client.get("/reports/profitability", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def pnl_comparison(self, **params: Any) -> Any:
+        return self._client.get("/reports/pnl-comparison", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def monthly_trends(self, **params: Any) -> Any:
+        return self._client.get("/reports/monthly-trends", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def duplicate_detection(self, **params: Any) -> Any:
+        return self._client.get("/reports/duplicate-detection", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def inventory_valuation(self, **params: Any) -> Any:
+        return self._client.get("/reports/inventory-valuation", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def financial_calendar(self, **params: Any) -> Any:
+        return self._client.get("/reports/financial-calendar", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def bank_reconciliation_status(self, **params: Any) -> Any:
+        return self._client.get("/reports/bank-reconciliation-status", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def unrealized_gains_losses(self, **params: Any) -> Any:
+        return self._client.get("/reports/unrealized-gains-losses", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def export_saved_report(self, report_id: str, **params: Any) -> Any:
+        return self._client.get(f"/reports/saved/{report_id}/export", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
 
 class AsyncReports:
     """Access reports (async)."""
@@ -200,3 +236,39 @@ class AsyncReports:
     async def create_schedule(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/reports/schedules", json=body)
+
+    async def cash_flow_forecast(self, **params: Any) -> Any:
+        return await self._client.get("/reports/cash-flow-forecast", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def payment_performance(self, **params: Any) -> Any:
+        return await self._client.get("/reports/payment-performance", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def tax_summary(self, **params: Any) -> Any:
+        return await self._client.get("/reports/tax-summary", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def profitability(self, **params: Any) -> Any:
+        return await self._client.get("/reports/profitability", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def pnl_comparison(self, **params: Any) -> Any:
+        return await self._client.get("/reports/pnl-comparison", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def monthly_trends(self, **params: Any) -> Any:
+        return await self._client.get("/reports/monthly-trends", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def duplicate_detection(self, **params: Any) -> Any:
+        return await self._client.get("/reports/duplicate-detection", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def inventory_valuation(self, **params: Any) -> Any:
+        return await self._client.get("/reports/inventory-valuation", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def financial_calendar(self, **params: Any) -> Any:
+        return await self._client.get("/reports/financial-calendar", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def bank_reconciliation_status(self, **params: Any) -> Any:
+        return await self._client.get("/reports/bank-reconciliation-status", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def unrealized_gains_losses(self, **params: Any) -> Any:
+        return await self._client.get("/reports/unrealized-gains-losses", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def export_saved_report(self, report_id: str, **params: Any) -> Any:
+        return await self._client.get(f"/reports/saved/{report_id}/export", params={_to_camel(k): v for k, v in params.items() if v is not None})

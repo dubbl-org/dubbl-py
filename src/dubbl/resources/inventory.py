@@ -79,6 +79,140 @@ class Inventory:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/inventory/assemblies", json=body)
 
+    # Item-level operations
+    def adjust(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/inventory/{item_id}/adjust", json=body)
+
+    def list_lots(self, item_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/lots")
+
+    def add_lot(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/inventory/{item_id}/lots", json=body)
+
+    def list_serials(self, item_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/serials")
+
+    def add_serial(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/inventory/{item_id}/serials", json=body)
+
+    def list_movements(self, item_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/movements")
+
+    def list_variants(self, item_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/variants")
+
+    def create_variant(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/inventory/{item_id}/variants", json=body)
+
+    def retrieve_variant(self, item_id: str, variant_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/variants/{variant_id}")
+
+    def update_variant(self, item_id: str, variant_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/inventory/{item_id}/variants/{variant_id}", json=body)
+
+    def delete_variant(self, item_id: str, variant_id: str) -> Any:
+        return self._client.delete(f"/inventory/{item_id}/variants/{variant_id}")
+
+    def list_suppliers(self, item_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/suppliers")
+
+    def add_supplier(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/inventory/{item_id}/suppliers", json=body)
+
+    def get_warehouse_stock(self, item_id: str) -> Any:
+        return self._client.get(f"/inventory/{item_id}/warehouse-stock")
+
+    # Bulk operations
+    def import_items(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/inventory/import", json=body)
+
+    def bulk_operations(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/inventory/bulk", json=body)
+
+    def get_reorder_suggestions(self) -> Any:
+        return self._client.get("/inventory/reorder-suggestions")
+
+    def get_movements_chart(self, **params: Any) -> Any:
+        return self._client.get("/inventory/movements/chart", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    # Transfers
+    def list_transfers(self, **params: Any) -> Any:
+        return self._client.get("/inventory/transfers", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def create_transfer(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/inventory/transfers", json=body)
+
+    def retrieve_transfer(self, id: str) -> Any:
+        return self._client.get(f"/inventory/transfers/{id}")
+
+    def update_transfer(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/inventory/transfers/{id}", json=body)
+
+    def delete_transfer(self, id: str) -> Any:
+        return self._client.delete(f"/inventory/transfers/{id}")
+
+    def complete_transfer(self, id: str) -> Any:
+        return self._client.post(f"/inventory/transfers/{id}/complete")
+
+    # BOMs
+    def list_bom(self, **params: Any) -> Any:
+        return self._client.get("/inventory/bom", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def create_bom(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/inventory/bom", json=body)
+
+    def retrieve_bom(self, id: str) -> Any:
+        return self._client.get(f"/inventory/bom/{id}")
+
+    def update_bom(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/inventory/bom/{id}", json=body)
+
+    def delete_bom(self, id: str) -> Any:
+        return self._client.delete(f"/inventory/bom/{id}")
+
+    def list_bom_components(self, bom_id: str) -> Any:
+        return self._client.get(f"/inventory/bom/{bom_id}/components")
+
+    def add_bom_component(self, bom_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/inventory/bom/{bom_id}/components", json=body)
+
+    def delete_bom_component(self, bom_id: str, component_id: str) -> Any:
+        return self._client.delete(f"/inventory/bom/{bom_id}/components/{component_id}")
+
+    # Assembly orders
+    def list_assembly_orders(self, **params: Any) -> Any:
+        return self._client.get("/inventory/assembly-orders", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    def create_assembly_order(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/inventory/assembly-orders", json=body)
+
+    def retrieve_assembly_order(self, id: str) -> Any:
+        return self._client.get(f"/inventory/assembly-orders/{id}")
+
+    def update_assembly_order(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/inventory/assembly-orders/{id}", json=body)
+
+    def delete_assembly_order(self, id: str) -> Any:
+        return self._client.delete(f"/inventory/assembly-orders/{id}")
+
+    def complete_assembly_order(self, id: str) -> Any:
+        return self._client.post(f"/inventory/assembly-orders/{id}/complete")
+
 
 class AsyncInventory:
     """Manage inventory (async)."""
@@ -148,3 +282,137 @@ class AsyncInventory:
     async def create_assembly(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/inventory/assemblies", json=body)
+
+    # Item-level operations
+    async def adjust(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/inventory/{item_id}/adjust", json=body)
+
+    async def list_lots(self, item_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/lots")
+
+    async def add_lot(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/inventory/{item_id}/lots", json=body)
+
+    async def list_serials(self, item_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/serials")
+
+    async def add_serial(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/inventory/{item_id}/serials", json=body)
+
+    async def list_movements(self, item_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/movements")
+
+    async def list_variants(self, item_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/variants")
+
+    async def create_variant(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/inventory/{item_id}/variants", json=body)
+
+    async def retrieve_variant(self, item_id: str, variant_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/variants/{variant_id}")
+
+    async def update_variant(self, item_id: str, variant_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/inventory/{item_id}/variants/{variant_id}", json=body)
+
+    async def delete_variant(self, item_id: str, variant_id: str) -> Any:
+        return await self._client.delete(f"/inventory/{item_id}/variants/{variant_id}")
+
+    async def list_suppliers(self, item_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/suppliers")
+
+    async def add_supplier(self, item_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/inventory/{item_id}/suppliers", json=body)
+
+    async def get_warehouse_stock(self, item_id: str) -> Any:
+        return await self._client.get(f"/inventory/{item_id}/warehouse-stock")
+
+    # Bulk operations
+    async def import_items(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/inventory/import", json=body)
+
+    async def bulk_operations(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/inventory/bulk", json=body)
+
+    async def get_reorder_suggestions(self) -> Any:
+        return await self._client.get("/inventory/reorder-suggestions")
+
+    async def get_movements_chart(self, **params: Any) -> Any:
+        return await self._client.get("/inventory/movements/chart", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    # Transfers
+    async def list_transfers(self, **params: Any) -> Any:
+        return await self._client.get("/inventory/transfers", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def create_transfer(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/inventory/transfers", json=body)
+
+    async def retrieve_transfer(self, id: str) -> Any:
+        return await self._client.get(f"/inventory/transfers/{id}")
+
+    async def update_transfer(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/inventory/transfers/{id}", json=body)
+
+    async def delete_transfer(self, id: str) -> Any:
+        return await self._client.delete(f"/inventory/transfers/{id}")
+
+    async def complete_transfer(self, id: str) -> Any:
+        return await self._client.post(f"/inventory/transfers/{id}/complete")
+
+    # BOMs
+    async def list_bom(self, **params: Any) -> Any:
+        return await self._client.get("/inventory/bom", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def create_bom(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/inventory/bom", json=body)
+
+    async def retrieve_bom(self, id: str) -> Any:
+        return await self._client.get(f"/inventory/bom/{id}")
+
+    async def update_bom(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/inventory/bom/{id}", json=body)
+
+    async def delete_bom(self, id: str) -> Any:
+        return await self._client.delete(f"/inventory/bom/{id}")
+
+    async def list_bom_components(self, bom_id: str) -> Any:
+        return await self._client.get(f"/inventory/bom/{bom_id}/components")
+
+    async def add_bom_component(self, bom_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/inventory/bom/{bom_id}/components", json=body)
+
+    async def delete_bom_component(self, bom_id: str, component_id: str) -> Any:
+        return await self._client.delete(f"/inventory/bom/{bom_id}/components/{component_id}")
+
+    # Assembly orders
+    async def list_assembly_orders(self, **params: Any) -> Any:
+        return await self._client.get("/inventory/assembly-orders", params={_to_camel(k): v for k, v in params.items() if v is not None})
+
+    async def create_assembly_order(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/inventory/assembly-orders", json=body)
+
+    async def retrieve_assembly_order(self, id: str) -> Any:
+        return await self._client.get(f"/inventory/assembly-orders/{id}")
+
+    async def update_assembly_order(self, id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/inventory/assembly-orders/{id}", json=body)
+
+    async def delete_assembly_order(self, id: str) -> Any:
+        return await self._client.delete(f"/inventory/assembly-orders/{id}")
+
+    async def complete_assembly_order(self, id: str) -> Any:
+        return await self._client.post(f"/inventory/assembly-orders/{id}/complete")

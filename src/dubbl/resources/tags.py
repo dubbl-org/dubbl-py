@@ -29,6 +29,14 @@ class Tags:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/tags/{id}")
 
+    def attach(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/tags/attach", json=body)
+
+    def detach(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/tags/detach", json=body)
+
 
 class AsyncTags:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +56,11 @@ class AsyncTags:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/tags/{id}")
+
+    async def attach(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/tags/attach", json=body)
+
+    async def detach(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/tags/detach", json=body)

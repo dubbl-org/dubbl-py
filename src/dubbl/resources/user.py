@@ -5,12 +5,27 @@ if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
 
 
+def _to_camel(name: str) -> str:
+    parts = name.split("_")
+    return parts[0] + "".join(p.capitalize() for p in parts[1:])
+
+
 class User:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
     def get(self) -> Any:
-        return self._client.get("/user")
+        return self._client.get("/user/profile")
+
+    def update_profile(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch("/user/profile", json=body)
+
+    def list_accounts(self) -> Any:
+        return self._client.get("/user/accounts")
+
+    def delete_account(self, account_id: str) -> Any:
+        return self._client.delete(f"/user/accounts/{account_id}")
 
 
 class AsyncUser:
@@ -18,4 +33,14 @@ class AsyncUser:
         self._client = client
 
     async def get(self) -> Any:
-        return await self._client.get("/user")
+        return await self._client.get("/user/profile")
+
+    async def update_profile(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch("/user/profile", json=body)
+
+    async def list_accounts(self) -> Any:
+        return await self._client.get("/user/accounts")
+
+    async def delete_account(self, account_id: str) -> Any:
+        return await self._client.delete(f"/user/accounts/{account_id}")

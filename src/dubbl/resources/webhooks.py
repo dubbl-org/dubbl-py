@@ -29,6 +29,20 @@ class Webhooks:
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/webhooks/{id}")
 
+    def subscribe(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/webhooks/subscribe", json=body)
+
+    def unsubscribe(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post("/webhooks/unsubscribe", json=body)
+
+    def list_deliveries(self, webhook_id: str) -> Any:
+        return self._client.get(f"/webhooks/{webhook_id}/deliveries")
+
+    def test(self, webhook_id: str) -> Any:
+        return self._client.post(f"/webhooks/{webhook_id}/test")
+
 
 class AsyncWebhooks:
     def __init__(self, client: AsyncAPIClient) -> None:
@@ -48,3 +62,17 @@ class AsyncWebhooks:
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/webhooks/{id}")
+
+    async def subscribe(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/webhooks/subscribe", json=body)
+
+    async def unsubscribe(self, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post("/webhooks/unsubscribe", json=body)
+
+    async def list_deliveries(self, webhook_id: str) -> Any:
+        return await self._client.get(f"/webhooks/{webhook_id}/deliveries")
+
+    async def test(self, webhook_id: str) -> Any:
+        return await self._client.post(f"/webhooks/{webhook_id}/test")
