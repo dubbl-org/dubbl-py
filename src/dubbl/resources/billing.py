@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -16,14 +19,14 @@ class Billing:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def get(self) -> Any:
+    def get(self) -> ResponseValue:
         return self._client.get("/billing")
 
-    def create_checkout(self, **kwargs: Any) -> Any:
+    def create_checkout(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/billing/checkout", json=body)
 
-    def create_portal(self, **kwargs: Any) -> Any:
+    def create_portal(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/billing/portal", json=body)
 
@@ -34,13 +37,13 @@ class AsyncBilling:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def get(self) -> Any:
+    async def get(self) -> ResponseValue:
         return await self._client.get("/billing")
 
-    async def create_checkout(self, **kwargs: Any) -> Any:
+    async def create_checkout(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/billing/checkout", json=body)
 
-    async def create_portal(self, **kwargs: Any) -> Any:
+    async def create_portal(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/billing/portal", json=body)

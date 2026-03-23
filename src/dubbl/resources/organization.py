@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -16,32 +19,33 @@ class Organization:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def get(self) -> Any:
+    def get(self) -> ResponseValue:
         return self._client.get("/organization")
 
-    def create(self, *, name: str, slug: str) -> Any:
+    def create(self, *, name: str, slug: str) -> ResponseValue:
         return self._client.post("/organization", json={"name": name, "slug": slug})
 
-    def update(self, **kwargs: Any) -> Any:
+    def update(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch("/organization", json=body)
 
-    def invite_link(self, org_id: str) -> Any:
-        return self._client.get(f"/organization/{org_id}/invite-link")
+    def invite_link(self, org_id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "Organization invite links are exposed via the invite_links resource in the current API."
+        )
 
-    def get_settings(self, org_id: str) -> Any:
-        return self._client.get(f"/organization/{org_id}/settings")
+    def get_settings(self, org_id: str) -> ResponseValue:
+        return self.get()
 
-    def update_settings(self, org_id: str, **kwargs: Any) -> Any:
-        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.patch(f"/organization/{org_id}/settings", json=body)
+    def update_settings(self, org_id: str, **kwargs: JSONValue) -> ResponseValue:
+        return self.update(**kwargs)
 
-    def get_mileage_rate(self) -> Any:
+    def get_mileage_rate(self) -> ResponseValue:
         return self._client.get("/organization/mileage-rate")
 
-    def update_mileage_rate(self, **kwargs: Any) -> Any:
+    def update_mileage_rate(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.patch("/organization/mileage-rate", json=body)
+        return self._client.put("/organization/mileage-rate", json=body)
 
 
 class AsyncOrganization:
@@ -50,29 +54,30 @@ class AsyncOrganization:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def get(self) -> Any:
+    async def get(self) -> ResponseValue:
         return await self._client.get("/organization")
 
-    async def create(self, *, name: str, slug: str) -> Any:
+    async def create(self, *, name: str, slug: str) -> ResponseValue:
         return await self._client.post("/organization", json={"name": name, "slug": slug})
 
-    async def update(self, **kwargs: Any) -> Any:
+    async def update(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch("/organization", json=body)
 
-    async def invite_link(self, org_id: str) -> Any:
-        return await self._client.get(f"/organization/{org_id}/invite-link")
+    async def invite_link(self, org_id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "Organization invite links are exposed via the invite_links resource in the current API."
+        )
 
-    async def get_settings(self, org_id: str) -> Any:
-        return await self._client.get(f"/organization/{org_id}/settings")
+    async def get_settings(self, org_id: str) -> ResponseValue:
+        return await self.get()
 
-    async def update_settings(self, org_id: str, **kwargs: Any) -> Any:
-        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.patch(f"/organization/{org_id}/settings", json=body)
+    async def update_settings(self, org_id: str, **kwargs: JSONValue) -> ResponseValue:
+        return await self.update(**kwargs)
 
-    async def get_mileage_rate(self) -> Any:
+    async def get_mileage_rate(self) -> ResponseValue:
         return await self._client.get("/organization/mileage-rate")
 
-    async def update_mileage_rate(self, **kwargs: Any) -> Any:
+    async def update_mileage_rate(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.patch("/organization/mileage-rate", json=body)
+        return await self._client.put("/organization/mileage-rate", json=body)

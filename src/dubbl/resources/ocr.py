@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -16,7 +19,7 @@ class OCR:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def extract_receipt(self, **kwargs: Any) -> Any:
+    def extract_receipt(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/ocr/receipt", json=body)
 
@@ -27,6 +30,6 @@ class AsyncOCR:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def extract_receipt(self, **kwargs: Any) -> Any:
+    async def extract_receipt(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/ocr/receipt", json=body)

@@ -1,5 +1,6 @@
 import pytest
-from dubbl import Dubbl, AsyncDubbl
+
+from dubbl import AsyncDubbl, Dubbl
 
 
 @pytest.fixture

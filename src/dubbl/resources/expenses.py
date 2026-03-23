@@ -1,5 +1,9 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import builtins
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -16,18 +20,18 @@ class Expenses:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/expenses", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
     def create(
         self,
         *,
         title: str,
-        description: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        items: Optional[List[Dict[str, Any]]] = None,
-    ) -> Any:
-        body: Dict[str, Any] = {
+        description: str | None = None,
+        currency_code: str | None = None,
+        items: builtins.list[dict[str, JSONValue]] | None = None,
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "title": title,
             "description": description,
             "currencyCode": currency_code,
@@ -35,33 +39,37 @@ class Expenses:
         }
         return self._client.post("/expenses", json={k: v for k, v in body.items() if v is not None})
 
-    def retrieve(self, expense_id: str) -> Any:
+    def retrieve(self, expense_id: str) -> ResponseValue:
         return self._client.get(f"/expenses/{expense_id}")
 
-    def update(self, expense_id: str, **kwargs: Any) -> Any:
+    def update(self, expense_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/expenses/{expense_id}", json=body)
 
-    def delete(self, expense_id: str) -> Any:
+    def delete(self, expense_id: str) -> ResponseValue:
         return self._client.delete(f"/expenses/{expense_id}")
 
-    def submit(self, expense_id: str) -> Any:
+    def submit(self, expense_id: str) -> ResponseValue:
         return self._client.post(f"/expenses/{expense_id}/submit")
 
-    def approve(self, expense_id: str) -> Any:
+    def approve(self, expense_id: str) -> ResponseValue:
         return self._client.post(f"/expenses/{expense_id}/approve")
 
-    def reject(self, expense_id: str) -> Any:
+    def reject(self, expense_id: str) -> ResponseValue:
         return self._client.post(f"/expenses/{expense_id}/reject")
 
-    def pay(self, expense_id: str) -> Any:
+    def pay(self, expense_id: str) -> ResponseValue:
         return self._client.post(f"/expenses/{expense_id}/pay")
 
-    def counts(self, **params: Any) -> Any:
-        return self._client.get("/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    def counts(self, **params: QueryValue) -> ResponseValue:
+        return self._client.get(
+            "/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    def receipt_url(self, **params: Any) -> Any:
-        return self._client.get("/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    def receipt_url(self, **params: QueryValue) -> ResponseValue:
+        return self._client.get(
+            "/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
 
 class AsyncExpenses:
@@ -70,18 +78,18 @@ class AsyncExpenses:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/expenses", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
     async def create(
         self,
         *,
         title: str,
-        description: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        items: Optional[List[Dict[str, Any]]] = None,
-    ) -> Any:
-        body: Dict[str, Any] = {
+        description: str | None = None,
+        currency_code: str | None = None,
+        items: builtins.list[dict[str, JSONValue]] | None = None,
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "title": title,
             "description": description,
             "currencyCode": currency_code,
@@ -89,30 +97,34 @@ class AsyncExpenses:
         }
         return await self._client.post("/expenses", json={k: v for k, v in body.items() if v is not None})
 
-    async def retrieve(self, expense_id: str) -> Any:
+    async def retrieve(self, expense_id: str) -> ResponseValue:
         return await self._client.get(f"/expenses/{expense_id}")
 
-    async def update(self, expense_id: str, **kwargs: Any) -> Any:
+    async def update(self, expense_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/expenses/{expense_id}", json=body)
 
-    async def delete(self, expense_id: str) -> Any:
+    async def delete(self, expense_id: str) -> ResponseValue:
         return await self._client.delete(f"/expenses/{expense_id}")
 
-    async def submit(self, expense_id: str) -> Any:
+    async def submit(self, expense_id: str) -> ResponseValue:
         return await self._client.post(f"/expenses/{expense_id}/submit")
 
-    async def approve(self, expense_id: str) -> Any:
+    async def approve(self, expense_id: str) -> ResponseValue:
         return await self._client.post(f"/expenses/{expense_id}/approve")
 
-    async def reject(self, expense_id: str) -> Any:
+    async def reject(self, expense_id: str) -> ResponseValue:
         return await self._client.post(f"/expenses/{expense_id}/reject")
 
-    async def pay(self, expense_id: str) -> Any:
+    async def pay(self, expense_id: str) -> ResponseValue:
         return await self._client.post(f"/expenses/{expense_id}/pay")
 
-    async def counts(self, **params: Any) -> Any:
-        return await self._client.get("/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    async def counts(self, **params: QueryValue) -> ResponseValue:
+        return await self._client.get(
+            "/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    async def receipt_url(self, **params: Any) -> Any:
-        return await self._client.get("/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    async def receipt_url(self, **params: QueryValue) -> ResponseValue:
+        return await self._client.get(
+            "/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )

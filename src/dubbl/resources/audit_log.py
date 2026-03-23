@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -19,12 +22,12 @@ class AuditLog:
     def list(
         self,
         *,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
-        action: Optional[str] = None,
-        entity_type: Optional[str] = None,
-    ) -> Any:
-        params: Dict[str, Any] = {
+        page: int | None = None,
+        limit: int | None = None,
+        action: str | None = None,
+        entity_type: str | None = None,
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "page": page,
             "limit": limit,
             "action": action,
@@ -32,8 +35,8 @@ class AuditLog:
         }
         return self._client.get("/audit-log", params=params)
 
-    def export(self, **params: Any) -> Any:
-        return self._client.get("/audit-log/export", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    def export(self, **params: QueryValue) -> ResponseValue:
+        raise NotImplementedError("The current v1 API does not expose a dedicated audit log export endpoint.")
 
 
 class AsyncAuditLog:
@@ -45,12 +48,12 @@ class AsyncAuditLog:
     async def list(
         self,
         *,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
-        action: Optional[str] = None,
-        entity_type: Optional[str] = None,
-    ) -> Any:
-        params: Dict[str, Any] = {
+        page: int | None = None,
+        limit: int | None = None,
+        action: str | None = None,
+        entity_type: str | None = None,
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "page": page,
             "limit": limit,
             "action": action,
@@ -58,5 +61,5 @@ class AsyncAuditLog:
         }
         return await self._client.get("/audit-log", params=params)
 
-    async def export(self, **params: Any) -> Any:
-        return await self._client.get("/audit-log/export", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    async def export(self, **params: QueryValue) -> ResponseValue:
+        raise NotImplementedError("The current v1 API does not expose a dedicated audit log export endpoint.")

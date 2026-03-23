@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -16,27 +19,31 @@ class InviteLinks:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/invite-links", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/invite-links", json=body)
 
-    def retrieve(self, link_id: str) -> Any:
-        return self._client.get(f"/invite-links/{link_id}")
+    def retrieve(self, link_id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "The current v1 API exposes invite link update and deletion, but not direct retrieval by id."
+        )
 
-    def update(self, link_id: str, **kwargs: Any) -> Any:
+    def update(self, link_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/invite-links/{link_id}", json=body)
 
-    def delete(self, link_id: str) -> Any:
+    def delete(self, link_id: str) -> ResponseValue:
         return self._client.delete(f"/invite-links/{link_id}")
 
-    def get_info(self, **params: Any) -> Any:
-        return self._client.get("/invite-links/info", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    def get_info(self, **params: QueryValue) -> ResponseValue:
+        return self._client.get(
+            "/invite-links/info", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    def join(self, **kwargs: Any) -> Any:
+    def join(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/invite-links/join", json=body)
 
@@ -47,26 +54,32 @@ class AsyncInviteLinks:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
-        return await self._client.get("/invite-links", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    async def list(self, **params: QueryValue) -> ResponseValue:
+        return await self._client.get(
+            "/invite-links", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/invite-links", json=body)
 
-    async def retrieve(self, link_id: str) -> Any:
-        return await self._client.get(f"/invite-links/{link_id}")
+    async def retrieve(self, link_id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "The current v1 API exposes invite link update and deletion, but not direct retrieval by id."
+        )
 
-    async def update(self, link_id: str, **kwargs: Any) -> Any:
+    async def update(self, link_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/invite-links/{link_id}", json=body)
 
-    async def delete(self, link_id: str) -> Any:
+    async def delete(self, link_id: str) -> ResponseValue:
         return await self._client.delete(f"/invite-links/{link_id}")
 
-    async def get_info(self, **params: Any) -> Any:
-        return await self._client.get("/invite-links/info", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    async def get_info(self, **params: QueryValue) -> ResponseValue:
+        return await self._client.get(
+            "/invite-links/info", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    async def join(self, **kwargs: Any) -> Any:
+    async def join(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/invite-links/join", json=body)

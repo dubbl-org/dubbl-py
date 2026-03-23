@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -16,24 +19,28 @@ class ScheduledPayments:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
-        return self._client.get("/scheduled-payments", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    def list(self, **params: QueryValue) -> ResponseValue:
+        return self._client.get(
+            "/scheduled-payments", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/scheduled-payments", json=body)
 
-    def retrieve(self, payment_id: str) -> Any:
-        return self._client.get(f"/scheduled-payments/{payment_id}")
+    def retrieve(self, payment_id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "The current v1 API exposes scheduled payment update and deletion, but not direct retrieval by id."
+        )
 
-    def update(self, payment_id: str, **kwargs: Any) -> Any:
+    def update(self, payment_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/scheduled-payments/{payment_id}", json=body)
 
-    def delete(self, payment_id: str) -> Any:
+    def delete(self, payment_id: str) -> ResponseValue:
         return self._client.delete(f"/scheduled-payments/{payment_id}")
 
-    def process(self) -> Any:
+    def process(self) -> ResponseValue:
         return self._client.post("/scheduled-payments/process")
 
 
@@ -43,22 +50,26 @@ class AsyncScheduledPayments:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
-        return await self._client.get("/scheduled-payments", params={_to_camel(k): v for k, v in params.items() if v is not None})
+    async def list(self, **params: QueryValue) -> ResponseValue:
+        return await self._client.get(
+            "/scheduled-payments", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/scheduled-payments", json=body)
 
-    async def retrieve(self, payment_id: str) -> Any:
-        return await self._client.get(f"/scheduled-payments/{payment_id}")
+    async def retrieve(self, payment_id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "The current v1 API exposes scheduled payment update and deletion, but not direct retrieval by id."
+        )
 
-    async def update(self, payment_id: str, **kwargs: Any) -> Any:
+    async def update(self, payment_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/scheduled-payments/{payment_id}", json=body)
 
-    async def delete(self, payment_id: str) -> Any:
+    async def delete(self, payment_id: str) -> ResponseValue:
         return await self._client.delete(f"/scheduled-payments/{payment_id}")
 
-    async def process(self) -> Any:
+    async def process(self) -> ResponseValue:
         return await self._client.post("/scheduled-payments/process")

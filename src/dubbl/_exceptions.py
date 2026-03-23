@@ -1,9 +1,13 @@
 from __future__ import annotations
-from typing import Any, Optional
+
+import httpx
+
+from ._types import ResponseValue
 
 
 class DubblError(Exception):
     """Base exception for all Dubbl SDK errors."""
+
     def __init__(self, message: str) -> None:
         super().__init__(message)
         self.message = message
@@ -11,15 +15,19 @@ class DubblError(Exception):
 
 class APIError(DubblError):
     """Base exception for API HTTP errors."""
+
     status_code: int
+
+    response: httpx.Response | None
+    body: ResponseValue | None
 
     def __init__(
         self,
         message: str,
         *,
         status_code: int,
-        response: Any = None,
-        body: Any = None,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
     ) -> None:
         super().__init__(message)
         self.status_code = status_code
@@ -32,54 +40,105 @@ class APIError(DubblError):
 
 class AuthenticationError(APIError):
     """401 - Invalid or missing API key."""
-    def __init__(self, message: str = "Invalid or missing API key", **kwargs: Any) -> None:
-        super().__init__(message, status_code=401, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Invalid or missing API key",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=401, response=response, body=body)
 
 
 class PermissionDeniedError(APIError):
     """403 - Insufficient permissions."""
-    def __init__(self, message: str = "Permission denied", **kwargs: Any) -> None:
-        super().__init__(message, status_code=403, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Permission denied",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=403, response=response, body=body)
 
 
 class NotFoundError(APIError):
     """404 - Resource not found."""
-    def __init__(self, message: str = "Resource not found", **kwargs: Any) -> None:
-        super().__init__(message, status_code=404, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Resource not found",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=404, response=response, body=body)
 
 
 class ConflictError(APIError):
     """409 - Conflict (duplicate, constraint violation)."""
-    def __init__(self, message: str = "Conflict", **kwargs: Any) -> None:
-        super().__init__(message, status_code=409, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Conflict",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=409, response=response, body=body)
 
 
 class ValidationError(APIError):
     """400 - Validation error."""
-    def __init__(self, message: str = "Validation error", **kwargs: Any) -> None:
-        super().__init__(message, status_code=400, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Validation error",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=400, response=response, body=body)
 
 
 class RateLimitError(APIError):
     """429 - Rate limit exceeded."""
-    def __init__(self, message: str = "Rate limit exceeded", **kwargs: Any) -> None:
-        super().__init__(message, status_code=429, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Rate limit exceeded",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=429, response=response, body=body)
 
 
 class InternalServerError(APIError):
     """500 - Internal server error."""
-    def __init__(self, message: str = "Internal server error", **kwargs: Any) -> None:
-        super().__init__(message, status_code=500, **kwargs)
+
+    def __init__(
+        self,
+        message: str = "Internal server error",
+        *,
+        response: httpx.Response | None = None,
+        body: ResponseValue | None = None,
+    ) -> None:
+        super().__init__(message, status_code=500, response=response, body=body)
 
 
 class APIConnectionError(DubblError):
     """Network connectivity error."""
+
     def __init__(self, message: str = "Connection error") -> None:
         super().__init__(message)
 
 
 class APITimeoutError(APIConnectionError):
     """Request timed out."""
+
     def __init__(self, message: str = "Request timed out") -> None:
         super().__init__(message)
 
@@ -95,13 +154,19 @@ _STATUS_MAP: dict[int, type[APIError]] = {
 }
 
 
-def raise_for_status(status_code: int, body: Any = None, response: Any = None) -> None:
+def raise_for_status(
+    status_code: int,
+    body: ResponseValue | None = None,
+    response: httpx.Response | None = None,
+) -> None:
     """Raise an appropriate exception for an HTTP error status code."""
     if status_code < 400:
         return
     message = "API error"
     if isinstance(body, dict) and "error" in body:
-        message = body["error"]
+        error_message = body["error"]
+        if isinstance(error_message, str):
+            message = error_message
     elif isinstance(body, str):
         message = body
     exc_class = _STATUS_MAP.get(status_code, APIError)

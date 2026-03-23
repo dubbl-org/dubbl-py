@@ -367,7 +367,7 @@ with open("invoice.pdf", "wb") as f:
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.10+
 - [httpx](https://www.python-httpx.org/) (automatically installed)
 
 ## Contributing

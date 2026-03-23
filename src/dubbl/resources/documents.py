@@ -1,5 +1,8 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -14,39 +17,43 @@ class Documents:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/documents", params={k: v for k, v in params.items() if v is not None})
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         return self._client.post("/documents", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
 
-    def retrieve(self, id: str) -> Any:
+    def retrieve(self, id: str) -> ResponseValue:
         return self._client.get(f"/documents/{id}")
 
-    def update(self, id: str, **kwargs: Any) -> Any:
-        return self._client.patch(f"/documents/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+    def update(self, id: str, **kwargs: JSONValue) -> ResponseValue:
+        return self._client.patch(
+            f"/documents/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
-    def delete(self, id: str) -> Any:
+    def delete(self, id: str) -> ResponseValue:
         return self._client.delete(f"/documents/{id}")
 
-    def download(self, id: str) -> Any:
+    def download(self, id: str) -> ResponseValue:
         return self._client.get(f"/documents/{id}/download", raw_response=True)
 
-    def list_folders(self, **params: Any) -> Any:
+    def list_folders(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/documents/folders", params={k: v for k, v in params.items() if v is not None})
 
-    def create_folder(self, **kwargs: Any) -> Any:
+    def create_folder(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/documents/folders", json=body)
 
-    def retrieve_folder(self, id: str) -> Any:
-        return self._client.get(f"/documents/folders/{id}")
+    def retrieve_folder(self, id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "The current v1 API exposes document folder update and delete, but not direct folder retrieval by id."
+        )
 
-    def update_folder(self, id: str, **kwargs: Any) -> Any:
+    def update_folder(self, id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/documents/folders/{id}", json=body)
 
-    def delete_folder(self, id: str) -> Any:
+    def delete_folder(self, id: str) -> ResponseValue:
         return self._client.delete(f"/documents/folders/{id}")
 
 
@@ -54,37 +61,41 @@ class AsyncDocuments:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/documents", params={k: v for k, v in params.items() if v is not None})
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         return await self._client.post("/documents", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
 
-    async def retrieve(self, id: str) -> Any:
+    async def retrieve(self, id: str) -> ResponseValue:
         return await self._client.get(f"/documents/{id}")
 
-    async def update(self, id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/documents/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+    async def update(self, id: str, **kwargs: JSONValue) -> ResponseValue:
+        return await self._client.patch(
+            f"/documents/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
-    async def delete(self, id: str) -> Any:
+    async def delete(self, id: str) -> ResponseValue:
         return await self._client.delete(f"/documents/{id}")
 
-    async def download(self, id: str) -> Any:
+    async def download(self, id: str) -> ResponseValue:
         return await self._client.get(f"/documents/{id}/download", raw_response=True)
 
-    async def list_folders(self, **params: Any) -> Any:
+    async def list_folders(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/documents/folders", params={k: v for k, v in params.items() if v is not None})
 
-    async def create_folder(self, **kwargs: Any) -> Any:
+    async def create_folder(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/documents/folders", json=body)
 
-    async def retrieve_folder(self, id: str) -> Any:
-        return await self._client.get(f"/documents/folders/{id}")
+    async def retrieve_folder(self, id: str) -> ResponseValue:
+        raise NotImplementedError(
+            "The current v1 API exposes document folder update and delete, but not direct folder retrieval by id."
+        )
 
-    async def update_folder(self, id: str, **kwargs: Any) -> Any:
+    async def update_folder(self, id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/documents/folders/{id}", json=body)
 
-    async def delete_folder(self, id: str) -> Any:
+    async def delete_folder(self, id: str) -> ResponseValue:
         return await self._client.delete(f"/documents/folders/{id}")
