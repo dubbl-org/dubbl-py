@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, TypeAlias, TypeVar
+from typing import Generic, Mapping, Sequence, TypeAlias, TypeVar
 
 JSONPrimitive: TypeAlias = str | int | float | bool | None
 JSONValue: TypeAlias = JSONPrimitive | dict[str, "JSONValue"] | list["JSONValue"]
 JSONObject: TypeAlias = dict[str, JSONValue]
 JSONArray: TypeAlias = list[JSONValue]
-QueryValue: TypeAlias = JSONValue
-QueryParams: TypeAlias = dict[str, QueryValue]
-Body: TypeAlias = JSONObject
-Headers: TypeAlias = dict[str, str]
+QueryPrimitive: TypeAlias = str | int | float | bool | None
+QueryValue: TypeAlias = QueryPrimitive | Sequence[QueryPrimitive]
+QueryParams: TypeAlias = Mapping[str, QueryValue]
+Body: TypeAlias = Mapping[str, JSONValue]
+Headers: TypeAlias = Mapping[str, str]
 ResponseValue: TypeAlias = JSONValue | bytes
 
 T = TypeVar("T")

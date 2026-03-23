@@ -27,9 +27,7 @@ class Invitations:
         return self._client.post("/invitations", json=body)
 
     def retrieve(self, invitation_id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes invitation deletion, but not direct retrieval by id."
-        )
+        raise NotImplementedError("The current v1 API exposes invitation deletion, but not direct retrieval by id.")
 
     def delete(self, invitation_id: str) -> ResponseValue:
         return self._client.delete(f"/invitations/{invitation_id}")
@@ -60,9 +58,7 @@ class AsyncInvitations:
         return await self._client.post("/invitations", json=body)
 
     async def retrieve(self, invitation_id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes invitation deletion, but not direct retrieval by id."
-        )
+        raise NotImplementedError("The current v1 API exposes invitation deletion, but not direct retrieval by id.")
 
     async def delete(self, invitation_id: str) -> ResponseValue:
         return await self._client.delete(f"/invitations/{invitation_id}")

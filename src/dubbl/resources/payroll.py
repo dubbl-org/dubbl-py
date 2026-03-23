@@ -291,9 +291,7 @@ class Payroll:
         return self._client.get(f"/payroll/payslips/{payslip_id}")
 
     def update_payslip(self, payslip_id: str, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes payslip retrieval, but not direct payslip updates."
-        )
+        raise NotImplementedError("The current v1 API exposes payslip retrieval, but not direct payslip updates.")
 
     # Shifts
     def list_shifts(self, **params: QueryValue) -> ResponseValue:
@@ -787,9 +785,7 @@ class AsyncPayroll:
         return await self._client.get(f"/payroll/payslips/{payslip_id}")
 
     async def update_payslip(self, payslip_id: str, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes payslip retrieval, but not direct payslip updates."
-        )
+        raise NotImplementedError("The current v1 API exposes payslip retrieval, but not direct payslip updates.")
 
     # Shifts
     async def list_shifts(self, **params: QueryValue) -> ResponseValue:

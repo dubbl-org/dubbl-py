@@ -10,7 +10,7 @@ from ._exceptions import (
     APITimeoutError,
     raise_for_status,
 )
-from ._types import Body, Headers, JSONValue, QueryParams, ResponseValue
+from ._types import Body, Headers, JSONValue, QueryParams, QueryValue, ResponseValue
 from ._version import __version__
 
 DEFAULT_BASE_URL = "https://dubbl.dev"
@@ -50,7 +50,7 @@ class BaseClient:
         self.max_retries = max_retries if max_retries is not None else DEFAULT_MAX_RETRIES
         self._custom_headers = default_headers or {}
 
-    def _build_headers(self, extra: dict[str, str] | None = None) -> dict[str, str]:
+    def _build_headers(self, extra: Headers | None = None) -> dict[str, str]:
         headers: dict[str, str] = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -73,7 +73,7 @@ class BaseClient:
             path = f"/{path}"
         return f"{self.base_url}/api/v1{path}"
 
-    def _prepare_params(self, params: QueryParams | None) -> QueryParams | None:
+    def _prepare_params(self, params: QueryParams | None) -> dict[str, QueryValue] | None:
         if params is None:
             return None
         return {k: v for k, v in params.items() if v is not None}
@@ -127,6 +127,18 @@ class SyncAPIClient(BaseClient):
         headers: Headers | None = None,
         raw_response: Literal[False] = False,
     ) -> JSONValue: ...
+
+    @overload
+    def request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue: ...
 
     def request(
         self,
@@ -390,6 +402,18 @@ class AsyncAPIClient(BaseClient):
         headers: Headers | None = None,
         raw_response: Literal[False] = False,
     ) -> JSONValue: ...
+
+    @overload
+    async def request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue: ...
 
     async def request(
         self,

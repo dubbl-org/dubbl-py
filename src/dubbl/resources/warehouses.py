@@ -40,9 +40,7 @@ class Warehouses:
         return self._client.get(f"/warehouses/{warehouse_id}/stock")
 
     def update_stock(self, warehouse_id: str, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes warehouse stock retrieval, but not direct stock updates."
-        )
+        raise NotImplementedError("The current v1 API exposes warehouse stock retrieval, but not direct stock updates.")
 
 
 class AsyncWarehouses:
@@ -74,6 +72,4 @@ class AsyncWarehouses:
         return await self._client.get(f"/warehouses/{warehouse_id}/stock")
 
     async def update_stock(self, warehouse_id: str, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes warehouse stock retrieval, but not direct stock updates."
-        )
+        raise NotImplementedError("The current v1 API exposes warehouse stock retrieval, but not direct stock updates.")

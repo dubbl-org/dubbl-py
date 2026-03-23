@@ -23,14 +23,10 @@ class BankImports:
         return self._client.get(f"/bank-imports/{import_id}")
 
     def update(self, import_id: str, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API only exposes bank import retrieval; updates are unavailable."
-        )
+        raise NotImplementedError("The current v1 API only exposes bank import retrieval; updates are unavailable.")
 
     def delete(self, import_id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API only exposes bank import retrieval; deletion is unavailable."
-        )
+        raise NotImplementedError("The current v1 API only exposes bank import retrieval; deletion is unavailable.")
 
 
 class AsyncBankImports:
@@ -43,11 +39,7 @@ class AsyncBankImports:
         return await self._client.get(f"/bank-imports/{import_id}")
 
     async def update(self, import_id: str, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API only exposes bank import retrieval; updates are unavailable."
-        )
+        raise NotImplementedError("The current v1 API only exposes bank import retrieval; updates are unavailable.")
 
     async def delete(self, import_id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API only exposes bank import retrieval; deletion is unavailable."
-        )
+        raise NotImplementedError("The current v1 API only exposes bank import retrieval; deletion is unavailable.")

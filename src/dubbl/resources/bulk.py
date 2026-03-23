@@ -123,9 +123,7 @@ class Bulk:
         )
 
     def preview_inventory(self, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API does not expose a dedicated bulk inventory preview endpoint."
-        )
+        raise NotImplementedError("The current v1 API does not expose a dedicated bulk inventory preview endpoint.")
 
     def adjust_inventory(self, **kwargs: JSONValue) -> ResponseValue:
         return self._client.post(
@@ -259,9 +257,7 @@ class AsyncBulk:
         )
 
     async def preview_inventory(self, **kwargs: JSONValue) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API does not expose a dedicated bulk inventory preview endpoint."
-        )
+        raise NotImplementedError("The current v1 API does not expose a dedicated bulk inventory preview endpoint.")
 
     async def adjust_inventory(self, **kwargs: JSONValue) -> ResponseValue:
         return await self._client.post(

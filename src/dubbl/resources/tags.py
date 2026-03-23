@@ -55,9 +55,7 @@ class AsyncTags:
         raise NotImplementedError("The current v1 API exposes tag update and deletion, but not direct retrieval by id.")
 
     async def update(self, id: str, **kwargs: JSONValue) -> ResponseValue:
-        return await self._client.put(
-            f"/tags/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        )
+        return await self._client.put(f"/tags/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
 
     async def delete(self, id: str) -> ResponseValue:
         return await self._client.delete(f"/tags/{id}")

@@ -164,7 +164,9 @@ def raise_for_status(
         return
     message = "API error"
     if isinstance(body, dict) and "error" in body:
-        message = body["error"]
+        error_message = body["error"]
+        if isinstance(error_message, str):
+            message = error_message
     elif isinstance(body, str):
         message = body
     exc_class = _STATUS_MAP.get(status_code, APIError)

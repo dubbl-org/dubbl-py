@@ -233,18 +233,14 @@ class Inventory:
         return self._client.post("/inventory/assembly-orders", json=body)
 
     def retrieve_assembly_order(self, id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes assembly order updates, but not direct retrieval by id."
-        )
+        raise NotImplementedError("The current v1 API exposes assembly order updates, but not direct retrieval by id.")
 
     def update_assembly_order(self, id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/inventory/assembly-orders/{id}", json=body)
 
     def delete_assembly_order(self, id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes assembly order updates, but not direct deletion."
-        )
+        raise NotImplementedError("The current v1 API exposes assembly order updates, but not direct deletion.")
 
     def complete_assembly_order(self, id: str) -> ResponseValue:
         return self._client.post(f"/inventory/assembly-orders/{id}/complete")
@@ -475,18 +471,14 @@ class AsyncInventory:
         return await self._client.post("/inventory/assembly-orders", json=body)
 
     async def retrieve_assembly_order(self, id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes assembly order updates, but not direct retrieval by id."
-        )
+        raise NotImplementedError("The current v1 API exposes assembly order updates, but not direct retrieval by id.")
 
     async def update_assembly_order(self, id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/inventory/assembly-orders/{id}", json=body)
 
     async def delete_assembly_order(self, id: str) -> ResponseValue:
-        raise NotImplementedError(
-            "The current v1 API exposes assembly order updates, but not direct deletion."
-        )
+        raise NotImplementedError("The current v1 API exposes assembly order updates, but not direct deletion.")
 
     async def complete_assembly_order(self, id: str) -> ResponseValue:
         return await self._client.post(f"/inventory/assembly-orders/{id}/complete")
