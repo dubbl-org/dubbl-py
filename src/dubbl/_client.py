@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 from ._base_client import AsyncAPIClient, SyncAPIClient
 from .resources.accounts import Accounts, AsyncAccounts
 from .resources.accrual_schedules import AccrualSchedules, AsyncAccrualSchedules
@@ -199,7 +197,7 @@ class Dubbl:
     def __enter__(self) -> Dubbl:
         return self
 
-    def __exit__(self, *args: Any) -> None:
+    def __exit__(self, *args: object) -> None:
         self.close()
 
 
@@ -319,5 +317,5 @@ class AsyncDubbl:
     async def __aenter__(self) -> AsyncDubbl:
         return self
 
-    async def __aexit__(self, *args: Any) -> None:
+    async def __aexit__(self, *args: object) -> None:
         await self.close()

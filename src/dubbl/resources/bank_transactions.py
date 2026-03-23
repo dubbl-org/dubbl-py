@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,36 +19,36 @@ class BankTransactions:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def reconcile(self, transaction_id: str, **kwargs: Any) -> Any:
+    def reconcile(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/bank-transactions/{transaction_id}/reconcile", json=body)
 
-    def unreconcile(self, transaction_id: str) -> Any:
+    def unreconcile(self, transaction_id: str) -> ResponseValue:
         return self._client.post(f"/bank-transactions/{transaction_id}/unreconcile")
 
-    def match(self, transaction_id: str, **kwargs: Any) -> Any:
+    def match(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/bank-transactions/{transaction_id}/match", json=body)
 
-    def match_invoice(self, transaction_id: str, **kwargs: Any) -> Any:
+    def match_invoice(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/bank-transactions/{transaction_id}/match-invoice", json=body)
 
-    def split(self, transaction_id: str, **kwargs: Any) -> Any:
+    def split(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/bank-transactions/{transaction_id}/split", json=body)
 
-    def exclude(self, transaction_id: str) -> Any:
+    def exclude(self, transaction_id: str) -> ResponseValue:
         return self._client.post(f"/bank-transactions/{transaction_id}/exclude")
 
-    def suggestions(self, transaction_id: str) -> Any:
+    def suggestions(self, transaction_id: str) -> ResponseValue:
         return self._client.get(f"/bank-transactions/{transaction_id}/suggestions")
 
-    def create_expense(self, transaction_id: str, **kwargs: Any) -> Any:
+    def create_expense(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/bank-transactions/{transaction_id}/create-expense", json=body)
 
-    def activity(self, transaction_id: str) -> Any:
+    def activity(self, transaction_id: str) -> ResponseValue:
         return self._client.get(f"/bank-transactions/{transaction_id}/activity")
 
 
@@ -56,34 +58,34 @@ class AsyncBankTransactions:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def reconcile(self, transaction_id: str, **kwargs: Any) -> Any:
+    async def reconcile(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/bank-transactions/{transaction_id}/reconcile", json=body)
 
-    async def unreconcile(self, transaction_id: str) -> Any:
+    async def unreconcile(self, transaction_id: str) -> ResponseValue:
         return await self._client.post(f"/bank-transactions/{transaction_id}/unreconcile")
 
-    async def match(self, transaction_id: str, **kwargs: Any) -> Any:
+    async def match(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/bank-transactions/{transaction_id}/match", json=body)
 
-    async def match_invoice(self, transaction_id: str, **kwargs: Any) -> Any:
+    async def match_invoice(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/bank-transactions/{transaction_id}/match-invoice", json=body)
 
-    async def split(self, transaction_id: str, **kwargs: Any) -> Any:
+    async def split(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/bank-transactions/{transaction_id}/split", json=body)
 
-    async def exclude(self, transaction_id: str) -> Any:
+    async def exclude(self, transaction_id: str) -> ResponseValue:
         return await self._client.post(f"/bank-transactions/{transaction_id}/exclude")
 
-    async def suggestions(self, transaction_id: str) -> Any:
+    async def suggestions(self, transaction_id: str) -> ResponseValue:
         return await self._client.get(f"/bank-transactions/{transaction_id}/suggestions")
 
-    async def create_expense(self, transaction_id: str, **kwargs: Any) -> Any:
+    async def create_expense(self, transaction_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/bank-transactions/{transaction_id}/create-expense", json=body)
 
-    async def activity(self, transaction_id: str) -> Any:
+    async def activity(self, transaction_id: str) -> ResponseValue:
         return await self._client.get(f"/bank-transactions/{transaction_id}/activity")

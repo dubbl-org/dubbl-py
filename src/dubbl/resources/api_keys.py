@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -12,14 +14,14 @@ class ApiKeys:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self) -> Any:
+    def list(self) -> ResponseValue:
         return self._client.get("/api-keys")
 
-    def create(self, *, name: str, expires_at: str | None = None) -> Any:
-        body: dict[str, Any] = {"name": name, "expiresAt": expires_at}
+    def create(self, *, name: str, expires_at: str | None = None) -> ResponseValue:
+        body: dict[str, JSONValue] = {"name": name, "expiresAt": expires_at}
         return self._client.post("/api-keys", json={k: v for k, v in body.items() if v is not None})
 
-    def delete(self, key_id: str) -> Any:
+    def delete(self, key_id: str) -> ResponseValue:
         return self._client.delete(f"/api-keys/{key_id}")
 
 
@@ -29,12 +31,12 @@ class AsyncApiKeys:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self) -> Any:
+    async def list(self) -> ResponseValue:
         return await self._client.get("/api-keys")
 
-    async def create(self, *, name: str, expires_at: str | None = None) -> Any:
-        body: dict[str, Any] = {"name": name, "expiresAt": expires_at}
+    async def create(self, *, name: str, expires_at: str | None = None) -> ResponseValue:
+        body: dict[str, JSONValue] = {"name": name, "expiresAt": expires_at}
         return await self._client.post("/api-keys", json={k: v for k, v in body.items() if v is not None})
 
-    async def delete(self, key_id: str) -> Any:
+    async def delete(self, key_id: str) -> ResponseValue:
         return await self._client.delete(f"/api-keys/{key_id}")

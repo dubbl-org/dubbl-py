@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,31 +19,31 @@ class Workflows:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/workflows", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/workflows", json=body)
 
-    def retrieve(self, workflow_id: str) -> Any:
+    def retrieve(self, workflow_id: str) -> ResponseValue:
         return self._client.get(f"/workflows/{workflow_id}")
 
-    def update(self, workflow_id: str, **kwargs: Any) -> Any:
+    def update(self, workflow_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/workflows/{workflow_id}", json=body)
 
-    def delete(self, workflow_id: str) -> Any:
+    def delete(self, workflow_id: str) -> ResponseValue:
         return self._client.delete(f"/workflows/{workflow_id}")
 
-    def toggle(self, workflow_id: str) -> Any:
+    def toggle(self, workflow_id: str) -> ResponseValue:
         return self._client.post(f"/workflows/{workflow_id}/toggle")
 
-    def test(self, **kwargs: Any) -> Any:
+    def test(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/workflows/test", json=body)
 
-    def get_logs(self, workflow_id: str) -> Any:
+    def get_logs(self, workflow_id: str) -> ResponseValue:
         return self._client.get(f"/workflows/{workflow_id}/logs")
 
 
@@ -51,31 +53,31 @@ class AsyncWorkflows:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get(
             "/workflows", params={_to_camel(k): v for k, v in params.items() if v is not None}
         )
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/workflows", json=body)
 
-    async def retrieve(self, workflow_id: str) -> Any:
+    async def retrieve(self, workflow_id: str) -> ResponseValue:
         return await self._client.get(f"/workflows/{workflow_id}")
 
-    async def update(self, workflow_id: str, **kwargs: Any) -> Any:
+    async def update(self, workflow_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/workflows/{workflow_id}", json=body)
 
-    async def delete(self, workflow_id: str) -> Any:
+    async def delete(self, workflow_id: str) -> ResponseValue:
         return await self._client.delete(f"/workflows/{workflow_id}")
 
-    async def toggle(self, workflow_id: str) -> Any:
+    async def toggle(self, workflow_id: str) -> ResponseValue:
         return await self._client.post(f"/workflows/{workflow_id}/toggle")
 
-    async def test(self, **kwargs: Any) -> Any:
+    async def test(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/workflows/test", json=body)
 
-    async def get_logs(self, workflow_id: str) -> Any:
+    async def get_logs(self, workflow_id: str) -> ResponseValue:
         return await self._client.get(f"/workflows/{workflow_id}/logs")

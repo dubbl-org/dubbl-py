@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,27 +19,27 @@ class Members:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/members", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    def invite(self, *, email: str, role: str) -> Any:
-        return self._client.post("/members/invite", json={"email": email, "role": role})
+    def invite(self, *, email: str, role: str) -> ResponseValue:
+        return self._client.post("/members", json={"email": email, "role": role})
 
-    def update(self, member_id: str, **kwargs: Any) -> Any:
+    def update(self, member_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/members/{member_id}", json=body)
 
-    def delete(self, member_id: str) -> Any:
+    def delete(self, member_id: str) -> ResponseValue:
         return self._client.delete(f"/members/{member_id}")
 
-    def update_role(self, member_id: str, **kwargs: Any) -> Any:
+    def update_role(self, member_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.patch(f"/members/{member_id}/role", json=body)
+        return self._client.patch(f"/members/{member_id}", json=body)
 
-    def remove_access(self, member_id: str) -> Any:
-        return self._client.post(f"/members/{member_id}/remove-access")
+    def remove_access(self, member_id: str) -> ResponseValue:
+        return self._client.delete(f"/members/{member_id}")
 
-    def capacity(self) -> Any:
+    def capacity(self) -> ResponseValue:
         return self._client.get("/members/capacity")
 
 
@@ -47,25 +49,25 @@ class AsyncMembers:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/members", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    async def invite(self, *, email: str, role: str) -> Any:
-        return await self._client.post("/members/invite", json={"email": email, "role": role})
+    async def invite(self, *, email: str, role: str) -> ResponseValue:
+        return await self._client.post("/members", json={"email": email, "role": role})
 
-    async def update(self, member_id: str, **kwargs: Any) -> Any:
+    async def update(self, member_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/members/{member_id}", json=body)
 
-    async def delete(self, member_id: str) -> Any:
+    async def delete(self, member_id: str) -> ResponseValue:
         return await self._client.delete(f"/members/{member_id}")
 
-    async def update_role(self, member_id: str, **kwargs: Any) -> Any:
+    async def update_role(self, member_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.patch(f"/members/{member_id}/role", json=body)
+        return await self._client.patch(f"/members/{member_id}", json=body)
 
-    async def remove_access(self, member_id: str) -> Any:
-        return await self._client.post(f"/members/{member_id}/remove-access")
+    async def remove_access(self, member_id: str) -> ResponseValue:
+        return await self._client.delete(f"/members/{member_id}")
 
-    async def capacity(self) -> Any:
+    async def capacity(self) -> ResponseValue:
         return await self._client.get("/members/capacity")

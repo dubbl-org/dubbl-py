@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import builtins
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -29,8 +31,8 @@ class Contacts:
         sort_order: str | None = None,
         page: int | None = None,
         limit: int | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "search": search,
             "type": type,
             "from": from_date,
@@ -51,11 +53,11 @@ class Contacts:
         tax_number: str | None = None,
         type: str | None = None,
         payment_terms_days: int | None = None,
-        addresses: builtins.list[dict[str, Any]] | None = None,
+        addresses: builtins.list[dict[str, JSONValue]] | None = None,
         notes: str | None = None,
         currency_code: str | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "name": name,
             "email": email,
             "phone": phone,
@@ -68,42 +70,42 @@ class Contacts:
         }
         return self._client.post("/contacts", json={k: v for k, v in body.items() if v is not None})
 
-    def retrieve(self, contact_id: str) -> Any:
+    def retrieve(self, contact_id: str) -> ResponseValue:
         return self._client.get(f"/contacts/{contact_id}")
 
-    def update(self, contact_id: str, **kwargs: Any) -> Any:
+    def update(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/contacts/{contact_id}", json=body)
 
-    def delete(self, contact_id: str) -> Any:
+    def delete(self, contact_id: str) -> ResponseValue:
         return self._client.delete(f"/contacts/{contact_id}")
 
-    def list_people(self, contact_id: str) -> Any:
+    def list_people(self, contact_id: str) -> ResponseValue:
         return self._client.get(f"/contacts/{contact_id}/people")
 
-    def create_person(self, contact_id: str, **kwargs: Any) -> Any:
+    def create_person(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/contacts/{contact_id}/people", json=body)
 
-    def statement(self, contact_id: str, **kwargs: Any) -> Any:
+    def statement(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         params = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.get(f"/contacts/{contact_id}/statement", params=params)
 
-    def statement_pdf(self, contact_id: str, **kwargs: Any) -> Any:
+    def statement_pdf(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         params = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.get(f"/contacts/{contact_id}/statement/pdf", params=params, raw_response=True)
 
-    def send_statement(self, contact_id: str, **kwargs: Any) -> Any:
+    def send_statement(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/contacts/{contact_id}/statement/email", json=body)
 
-    def activity(self, contact_id: str) -> Any:
+    def activity(self, contact_id: str) -> ResponseValue:
         return self._client.get(f"/contacts/{contact_id}/activity")
 
-    def list_files(self, contact_id: str) -> Any:
+    def list_files(self, contact_id: str) -> ResponseValue:
         return self._client.get(f"/contacts/{contact_id}/files")
 
-    def upload_file(self, contact_id: str, **kwargs: Any) -> Any:
+    def upload_file(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/contacts/{contact_id}/files", json=body)
 
@@ -125,8 +127,8 @@ class AsyncContacts:
         sort_order: str | None = None,
         page: int | None = None,
         limit: int | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "search": search,
             "type": type,
             "from": from_date,
@@ -147,11 +149,11 @@ class AsyncContacts:
         tax_number: str | None = None,
         type: str | None = None,
         payment_terms_days: int | None = None,
-        addresses: builtins.list[dict[str, Any]] | None = None,
+        addresses: builtins.list[dict[str, JSONValue]] | None = None,
         notes: str | None = None,
         currency_code: str | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "name": name,
             "email": email,
             "phone": phone,
@@ -164,41 +166,41 @@ class AsyncContacts:
         }
         return await self._client.post("/contacts", json={k: v for k, v in body.items() if v is not None})
 
-    async def retrieve(self, contact_id: str) -> Any:
+    async def retrieve(self, contact_id: str) -> ResponseValue:
         return await self._client.get(f"/contacts/{contact_id}")
 
-    async def update(self, contact_id: str, **kwargs: Any) -> Any:
+    async def update(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/contacts/{contact_id}", json=body)
 
-    async def delete(self, contact_id: str) -> Any:
+    async def delete(self, contact_id: str) -> ResponseValue:
         return await self._client.delete(f"/contacts/{contact_id}")
 
-    async def list_people(self, contact_id: str) -> Any:
+    async def list_people(self, contact_id: str) -> ResponseValue:
         return await self._client.get(f"/contacts/{contact_id}/people")
 
-    async def create_person(self, contact_id: str, **kwargs: Any) -> Any:
+    async def create_person(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/contacts/{contact_id}/people", json=body)
 
-    async def statement(self, contact_id: str, **kwargs: Any) -> Any:
+    async def statement(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         params = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.get(f"/contacts/{contact_id}/statement", params=params)
 
-    async def statement_pdf(self, contact_id: str, **kwargs: Any) -> Any:
+    async def statement_pdf(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         params = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.get(f"/contacts/{contact_id}/statement/pdf", params=params, raw_response=True)
 
-    async def send_statement(self, contact_id: str, **kwargs: Any) -> Any:
+    async def send_statement(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/contacts/{contact_id}/statement/email", json=body)
 
-    async def activity(self, contact_id: str) -> Any:
+    async def activity(self, contact_id: str) -> ResponseValue:
         return await self._client.get(f"/contacts/{contact_id}/activity")
 
-    async def list_files(self, contact_id: str) -> Any:
+    async def list_files(self, contact_id: str) -> ResponseValue:
         return await self._client.get(f"/contacts/{contact_id}/files")
 
-    async def upload_file(self, contact_id: str, **kwargs: Any) -> Any:
+    async def upload_file(self, contact_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/contacts/{contact_id}/files", json=body)

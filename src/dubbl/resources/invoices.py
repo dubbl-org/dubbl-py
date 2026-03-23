@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import builtins
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -30,8 +32,8 @@ class Invoices:
         sort_order: str | None = None,
         page: int | None = None,
         limit: int | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "search": search,
             "status": status,
             "contactId": contact_id,
@@ -53,9 +55,9 @@ class Invoices:
         reference: str | None = None,
         notes: str | None = None,
         currency_code: str | None = None,
-        lines: builtins.list[dict[str, Any]] | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+        lines: builtins.list[dict[str, JSONValue]] | None = None,
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "contactId": contact_id,
             "issueDate": issue_date,
             "dueDate": due_date,
@@ -66,60 +68,60 @@ class Invoices:
         }
         return self._client.post("/invoices", json={k: v for k, v in body.items() if v is not None})
 
-    def retrieve(self, invoice_id: str) -> Any:
+    def retrieve(self, invoice_id: str) -> ResponseValue:
         return self._client.get(f"/invoices/{invoice_id}")
 
-    def update(self, invoice_id: str, **kwargs: Any) -> Any:
+    def update(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/invoices/{invoice_id}", json=body)
 
-    def delete(self, invoice_id: str) -> Any:
+    def delete(self, invoice_id: str) -> ResponseValue:
         return self._client.delete(f"/invoices/{invoice_id}")
 
-    def send(self, invoice_id: str) -> Any:
+    def send(self, invoice_id: str) -> ResponseValue:
         return self._client.post(f"/invoices/{invoice_id}/send")
 
-    def void(self, invoice_id: str) -> Any:
+    def void(self, invoice_id: str) -> ResponseValue:
         return self._client.post(f"/invoices/{invoice_id}/void")
 
-    def pay(self, invoice_id: str, **kwargs: Any) -> Any:
+    def pay(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/invoices/{invoice_id}/pay", json=body)
 
-    def pdf(self, invoice_id: str) -> Any:
+    def pdf(self, invoice_id: str) -> ResponseValue:
         return self._client.get(f"/invoices/{invoice_id}/pdf", raw_response=True)
 
-    def ubl(self, invoice_id: str) -> Any:
+    def ubl(self, invoice_id: str) -> ResponseValue:
         return self._client.get(f"/invoices/{invoice_id}/ubl")
 
-    def summary(self) -> Any:
+    def summary(self) -> ResponseValue:
         return self._client.get("/invoices/summary")
 
-    def calculate_interest(self, **kwargs: Any) -> Any:
+    def calculate_interest(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/invoices/calculate-interest", json=body)
 
-    def charge_interest(self, invoice_id: str, **kwargs: Any) -> Any:
+    def charge_interest(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/invoices/{invoice_id}/charge-interest", json=body)
 
-    def payment_link(self, invoice_id: str) -> Any:
-        return self._client.get(f"/invoices/{invoice_id}/payment-link")
+    def payment_link(self, invoice_id: str) -> ResponseValue:
+        return self._client.post(f"/invoices/{invoice_id}/payment-link")
 
-    def signature_get(self, invoice_id: str) -> Any:
+    def signature_get(self, invoice_id: str) -> ResponseValue:
         return self._client.get(f"/invoices/{invoice_id}/signature")
 
-    def signature_create(self, invoice_id: str, **kwargs: Any) -> Any:
+    def signature_create(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/invoices/{invoice_id}/signature", json=body)
 
-    def snapshot(self, invoice_id: str) -> Any:
+    def snapshot(self, invoice_id: str) -> ResponseValue:
         return self._client.get(f"/invoices/{invoice_id}/snapshot")
 
-    def compliance(self, invoice_id: str) -> Any:
+    def compliance(self, invoice_id: str) -> ResponseValue:
         return self._client.get(f"/invoices/{invoice_id}/compliance")
 
-    def resend_signature(self, invoice_id: str) -> Any:
+    def resend_signature(self, invoice_id: str) -> ResponseValue:
         return self._client.post(f"/invoices/{invoice_id}/signature/resend")
 
 
@@ -141,8 +143,8 @@ class AsyncInvoices:
         sort_order: str | None = None,
         page: int | None = None,
         limit: int | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "search": search,
             "status": status,
             "contactId": contact_id,
@@ -164,9 +166,9 @@ class AsyncInvoices:
         reference: str | None = None,
         notes: str | None = None,
         currency_code: str | None = None,
-        lines: builtins.list[dict[str, Any]] | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+        lines: builtins.list[dict[str, JSONValue]] | None = None,
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "contactId": contact_id,
             "issueDate": issue_date,
             "dueDate": due_date,
@@ -177,58 +179,58 @@ class AsyncInvoices:
         }
         return await self._client.post("/invoices", json={k: v for k, v in body.items() if v is not None})
 
-    async def retrieve(self, invoice_id: str) -> Any:
+    async def retrieve(self, invoice_id: str) -> ResponseValue:
         return await self._client.get(f"/invoices/{invoice_id}")
 
-    async def update(self, invoice_id: str, **kwargs: Any) -> Any:
+    async def update(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/invoices/{invoice_id}", json=body)
 
-    async def delete(self, invoice_id: str) -> Any:
+    async def delete(self, invoice_id: str) -> ResponseValue:
         return await self._client.delete(f"/invoices/{invoice_id}")
 
-    async def send(self, invoice_id: str) -> Any:
+    async def send(self, invoice_id: str) -> ResponseValue:
         return await self._client.post(f"/invoices/{invoice_id}/send")
 
-    async def void(self, invoice_id: str) -> Any:
+    async def void(self, invoice_id: str) -> ResponseValue:
         return await self._client.post(f"/invoices/{invoice_id}/void")
 
-    async def pay(self, invoice_id: str, **kwargs: Any) -> Any:
+    async def pay(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/invoices/{invoice_id}/pay", json=body)
 
-    async def pdf(self, invoice_id: str) -> Any:
+    async def pdf(self, invoice_id: str) -> ResponseValue:
         return await self._client.get(f"/invoices/{invoice_id}/pdf", raw_response=True)
 
-    async def ubl(self, invoice_id: str) -> Any:
+    async def ubl(self, invoice_id: str) -> ResponseValue:
         return await self._client.get(f"/invoices/{invoice_id}/ubl")
 
-    async def summary(self) -> Any:
+    async def summary(self) -> ResponseValue:
         return await self._client.get("/invoices/summary")
 
-    async def calculate_interest(self, **kwargs: Any) -> Any:
+    async def calculate_interest(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/invoices/calculate-interest", json=body)
 
-    async def charge_interest(self, invoice_id: str, **kwargs: Any) -> Any:
+    async def charge_interest(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/invoices/{invoice_id}/charge-interest", json=body)
 
-    async def payment_link(self, invoice_id: str) -> Any:
-        return await self._client.get(f"/invoices/{invoice_id}/payment-link")
+    async def payment_link(self, invoice_id: str) -> ResponseValue:
+        return await self._client.post(f"/invoices/{invoice_id}/payment-link")
 
-    async def signature_get(self, invoice_id: str) -> Any:
+    async def signature_get(self, invoice_id: str) -> ResponseValue:
         return await self._client.get(f"/invoices/{invoice_id}/signature")
 
-    async def signature_create(self, invoice_id: str, **kwargs: Any) -> Any:
+    async def signature_create(self, invoice_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/invoices/{invoice_id}/signature", json=body)
 
-    async def snapshot(self, invoice_id: str) -> Any:
+    async def snapshot(self, invoice_id: str) -> ResponseValue:
         return await self._client.get(f"/invoices/{invoice_id}/snapshot")
 
-    async def compliance(self, invoice_id: str) -> Any:
+    async def compliance(self, invoice_id: str) -> ResponseValue:
         return await self._client.get(f"/invoices/{invoice_id}/compliance")
 
-    async def resend_signature(self, invoice_id: str) -> Any:
+    async def resend_signature(self, invoice_id: str) -> ResponseValue:
         return await self._client.post(f"/invoices/{invoice_id}/signature/resend")

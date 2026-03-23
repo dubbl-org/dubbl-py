@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,7 +19,7 @@ class TaxLookup:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def lookup(self, **params: Any) -> Any:
+    def lookup(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/tax-lookup", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
 
@@ -27,7 +29,7 @@ class AsyncTaxLookup:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def lookup(self, **params: Any) -> Any:
+    async def lookup(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get(
             "/tax-lookup", params={_to_camel(k): v for k, v in params.items() if v is not None}
         )

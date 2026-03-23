@@ -94,6 +94,48 @@ def test_sync_resource_paths(client: Dubbl) -> None:
     assert report_route.called
 
 
+@respx.mock
+def test_sync_corrected_route_verbs(client: Dubbl) -> None:
+    backup_route = respx.get("https://test.dubbl.dev/api/v1/backups/bkp_123/download").mock(
+        return_value=httpx.Response(200, content=b'{"backup":true}')
+    )
+    validation_route = respx.get("https://test.dubbl.dev/api/v1/bank-accounts/ba_123/validate-balance").mock(
+        return_value=httpx.Response(200, json={"valid": True})
+    )
+    payment_link_route = respx.post("https://test.dubbl.dev/api/v1/invoices/inv_123/payment-link").mock(
+        return_value=httpx.Response(200, json={"url": "https://pay.example.com"})
+    )
+    requisition_route = respx.put("https://test.dubbl.dev/api/v1/purchase-requisitions/pr_123").mock(
+        return_value=httpx.Response(200, json={"requisition": {"id": "pr_123"}})
+    )
+    period_lock_route = respx.put("https://test.dubbl.dev/api/v1/period-lock").mock(
+        return_value=httpx.Response(200, json={"periodLock": {"lockDate": "2026-03-31"}})
+    )
+
+    assert client.backups.download("bkp_123") == b'{"backup":true}'
+    assert client.bank_accounts.validate_balance("ba_123") == {"valid": True}
+    assert client.invoices.payment_link("inv_123") == {"url": "https://pay.example.com"}
+    assert client.purchase_requisitions.update("pr_123", status="approved") == {"requisition": {"id": "pr_123"}}
+    assert client.period_lock.lock(lock_date="2026-03-31") == {"periodLock": {"lockDate": "2026-03-31"}}
+
+    assert backup_route.called
+    assert validation_route.called
+    assert payment_link_route.called
+    assert requisition_route.called
+    assert period_lock_route.called
+
+
+def test_stale_endpoints_raise_not_implemented(client: Dubbl) -> None:
+    with pytest.raises(NotImplementedError):
+        client.approval_requests.update("ar_123", status="approved")
+    with pytest.raises(NotImplementedError):
+        client.document_emails.send(document_id="doc_123")
+    with pytest.raises(NotImplementedError):
+        client.inventory.retrieve_category("cat_123")
+    with pytest.raises(NotImplementedError):
+        client.payroll.list_self_service_leave_requests()
+
+
 @pytest.mark.asyncio
 @respx.mock
 async def test_async_resource_paths(async_client: AsyncDubbl) -> None:
@@ -114,3 +156,25 @@ async def test_async_resource_paths(async_client: AsyncDubbl) -> None:
     assert integrations_route.called
     assert inventory_route.called
     assert bulk_route.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_corrected_route_verbs(async_client: AsyncDubbl) -> None:
+    role_route = respx.put("https://test.dubbl.dev/api/v1/roles/role_123").mock(
+        return_value=httpx.Response(200, json={"role": {"id": "role_123"}})
+    )
+    mileage_route = respx.put("https://test.dubbl.dev/api/v1/organization/mileage-rate").mock(
+        return_value=httpx.Response(200, json={"mileageRate": 72})
+    )
+    email_config_route = respx.put("https://test.dubbl.dev/api/v1/email-config").mock(
+        return_value=httpx.Response(200, json={"config": {"provider": "smtp"}})
+    )
+
+    assert await async_client.roles.update("role_123", name="Controller") == {"role": {"id": "role_123"}}
+    assert await async_client.organization.update_mileage_rate(mileage_rate=72) == {"mileageRate": 72}
+    assert await async_client.email_config.update(provider="smtp") == {"config": {"provider": "smtp"}}
+
+    assert role_route.called
+    assert mileage_route.called
+    assert email_config_route.called

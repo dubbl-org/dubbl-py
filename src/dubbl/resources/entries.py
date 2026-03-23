@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import builtins
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -18,7 +20,7 @@ class Entries:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/entries", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
     def create(
@@ -26,11 +28,11 @@ class Entries:
         *,
         date: str,
         description: str,
-        lines: builtins.list[dict[str, Any]],
+        lines: builtins.list[dict[str, JSONValue]],
         reference: str | None = None,
         fiscal_year_id: str | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "date": date,
             "description": description,
             "lines": lines,
@@ -39,16 +41,16 @@ class Entries:
         }
         return self._client.post("/entries", json={k: v for k, v in body.items() if v is not None})
 
-    def retrieve(self, entry_id: str) -> Any:
+    def retrieve(self, entry_id: str) -> ResponseValue:
         return self._client.get(f"/entries/{entry_id}")
 
-    def delete(self, entry_id: str) -> Any:
+    def delete(self, entry_id: str) -> ResponseValue:
         return self._client.delete(f"/entries/{entry_id}")
 
-    def post(self, entry_id: str) -> Any:
+    def post(self, entry_id: str) -> ResponseValue:
         return self._client.post(f"/entries/{entry_id}/post")
 
-    def void(self, entry_id: str, *, reason: str) -> Any:
+    def void(self, entry_id: str, *, reason: str) -> ResponseValue:
         return self._client.post(f"/entries/{entry_id}/void", json={"reason": reason})
 
 
@@ -58,7 +60,7 @@ class AsyncEntries:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/entries", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
     async def create(
@@ -66,11 +68,11 @@ class AsyncEntries:
         *,
         date: str,
         description: str,
-        lines: builtins.list[dict[str, Any]],
+        lines: builtins.list[dict[str, JSONValue]],
         reference: str | None = None,
         fiscal_year_id: str | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "date": date,
             "description": description,
             "lines": lines,
@@ -79,14 +81,14 @@ class AsyncEntries:
         }
         return await self._client.post("/entries", json={k: v for k, v in body.items() if v is not None})
 
-    async def retrieve(self, entry_id: str) -> Any:
+    async def retrieve(self, entry_id: str) -> ResponseValue:
         return await self._client.get(f"/entries/{entry_id}")
 
-    async def delete(self, entry_id: str) -> Any:
+    async def delete(self, entry_id: str) -> ResponseValue:
         return await self._client.delete(f"/entries/{entry_id}")
 
-    async def post(self, entry_id: str) -> Any:
+    async def post(self, entry_id: str) -> ResponseValue:
         return await self._client.post(f"/entries/{entry_id}/post")
 
-    async def void(self, entry_id: str, *, reason: str) -> Any:
+    async def void(self, entry_id: str, *, reason: str) -> ResponseValue:
         return await self._client.post(f"/entries/{entry_id}/void", json={"reason": reason})

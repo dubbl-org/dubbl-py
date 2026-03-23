@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,24 +19,24 @@ class LandedCosts:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/landed-costs", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/landed-costs", json=body)
 
-    def retrieve(self, cost_id: str) -> Any:
+    def retrieve(self, cost_id: str) -> ResponseValue:
         return self._client.get(f"/landed-costs/{cost_id}")
 
-    def update(self, cost_id: str, **kwargs: Any) -> Any:
+    def update(self, cost_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.patch(f"/landed-costs/{cost_id}", json=body)
+        return self._client.put(f"/landed-costs/{cost_id}", json=body)
 
-    def delete(self, cost_id: str) -> Any:
+    def delete(self, cost_id: str) -> ResponseValue:
         return self._client.delete(f"/landed-costs/{cost_id}")
 
-    def allocate(self, cost_id: str, **kwargs: Any) -> Any:
+    def allocate(self, cost_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/landed-costs/{cost_id}/allocate", json=body)
 
@@ -45,25 +47,25 @@ class AsyncLandedCosts:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get(
             "/landed-costs", params={_to_camel(k): v for k, v in params.items() if v is not None}
         )
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/landed-costs", json=body)
 
-    async def retrieve(self, cost_id: str) -> Any:
+    async def retrieve(self, cost_id: str) -> ResponseValue:
         return await self._client.get(f"/landed-costs/{cost_id}")
 
-    async def update(self, cost_id: str, **kwargs: Any) -> Any:
+    async def update(self, cost_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.patch(f"/landed-costs/{cost_id}", json=body)
+        return await self._client.put(f"/landed-costs/{cost_id}", json=body)
 
-    async def delete(self, cost_id: str) -> Any:
+    async def delete(self, cost_id: str) -> ResponseValue:
         return await self._client.delete(f"/landed-costs/{cost_id}")
 
-    async def allocate(self, cost_id: str, **kwargs: Any) -> Any:
+    async def allocate(self, cost_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/landed-costs/{cost_id}/allocate", json=body)

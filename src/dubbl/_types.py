@@ -1,7 +1,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, Generic, TypeVar
+from typing import Generic, TypeAlias, TypeVar
+
+JSONPrimitive: TypeAlias = str | int | float | bool | None
+JSONValue: TypeAlias = JSONPrimitive | dict[str, "JSONValue"] | list["JSONValue"]
+JSONObject: TypeAlias = dict[str, JSONValue]
+JSONArray: TypeAlias = list[JSONValue]
+QueryValue: TypeAlias = JSONValue
+QueryParams: TypeAlias = dict[str, QueryValue]
+Body: TypeAlias = JSONObject
+Headers: TypeAlias = dict[str, str]
+ResponseValue: TypeAlias = JSONValue | bytes
 
 T = TypeVar("T")
 
@@ -23,9 +33,4 @@ class RequestOptions:
 
     timeout: float | None = None
     headers: dict[str, str] | None = None
-    params: dict[str, Any] | None = None
-
-
-QueryParams = Dict[str, Any]
-Body = Dict[str, Any]
-Headers = Dict[str, str]
+    params: QueryParams | None = None

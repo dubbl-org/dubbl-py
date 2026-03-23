@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,23 +19,23 @@ class ApprovalWorkflows:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/approval-workflows", params={k: v for k, v in params.items() if v is not None})
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         return self._client.post(
             "/approval-workflows", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
         )
 
-    def retrieve(self, workflow_id: str) -> Any:
+    def retrieve(self, workflow_id: str) -> ResponseValue:
         return self._client.get(f"/approval-workflows/{workflow_id}")
 
-    def update(self, workflow_id: str, **kwargs: Any) -> Any:
+    def update(self, workflow_id: str, **kwargs: JSONValue) -> ResponseValue:
         return self._client.patch(
             f"/approval-workflows/{workflow_id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
         )
 
-    def delete(self, workflow_id: str) -> Any:
+    def delete(self, workflow_id: str) -> ResponseValue:
         return self._client.delete(f"/approval-workflows/{workflow_id}")
 
 
@@ -43,21 +45,21 @@ class AsyncApprovalWorkflows:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/approval-workflows", params={k: v for k, v in params.items() if v is not None})
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         return await self._client.post(
             "/approval-workflows", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
         )
 
-    async def retrieve(self, workflow_id: str) -> Any:
+    async def retrieve(self, workflow_id: str) -> ResponseValue:
         return await self._client.get(f"/approval-workflows/{workflow_id}")
 
-    async def update(self, workflow_id: str, **kwargs: Any) -> Any:
+    async def update(self, workflow_id: str, **kwargs: JSONValue) -> ResponseValue:
         return await self._client.patch(
             f"/approval-workflows/{workflow_id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
         )
 
-    async def delete(self, workflow_id: str) -> Any:
+    async def delete(self, workflow_id: str) -> ResponseValue:
         return await self._client.delete(f"/approval-workflows/{workflow_id}")

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,7 +19,7 @@ class BankAccounts:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/bank-accounts", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
     def create(
@@ -31,9 +33,9 @@ class BankAccounts:
         account_type: str | None = None,
         color: str | None = None,
         chart_account_id: str | None = None,
-        balance: Any | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+        balance: JSONValue | None = None,
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "accountName": account_name,
             "accountNumber": account_number,
             "bankName": bank_name,
@@ -46,40 +48,40 @@ class BankAccounts:
         }
         return self._client.post("/bank-accounts", json={k: v for k, v in body.items() if v is not None})
 
-    def retrieve(self, bank_account_id: str) -> Any:
+    def retrieve(self, bank_account_id: str) -> ResponseValue:
         return self._client.get(f"/bank-accounts/{bank_account_id}")
 
-    def update(self, bank_account_id: str, **kwargs: Any) -> Any:
+    def update(self, bank_account_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/bank-accounts/{bank_account_id}", json=body)
 
-    def delete(self, bank_account_id: str) -> Any:
+    def delete(self, bank_account_id: str) -> ResponseValue:
         return self._client.delete(f"/bank-accounts/{bank_account_id}")
 
-    def import_transactions(self, bank_account_id: str, **kwargs: Any) -> Any:
+    def import_transactions(self, bank_account_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/bank-accounts/{bank_account_id}/transactions/import", json=body)
 
-    def sync(self, bank_account_id: str) -> Any:
-        return self._client.post(f"/bank-accounts/{bank_account_id}/sync")
+    def sync(self, bank_account_id: str) -> ResponseValue:
+        raise NotImplementedError("The current v1 API does not expose bank account sync; use imports or integrations.")
 
-    def list_transactions(self, bank_account_id: str, **params: Any) -> Any:
+    def list_transactions(self, bank_account_id: str, **params: QueryValue) -> ResponseValue:
         return self._client.get(
             f"/bank-accounts/{bank_account_id}/transactions",
             params={_to_camel(k): v for k, v in params.items() if v is not None},
         )
 
-    def list_reconciliations(self, bank_account_id: str) -> Any:
+    def list_reconciliations(self, bank_account_id: str) -> ResponseValue:
         return self._client.get(f"/bank-accounts/{bank_account_id}/reconciliations")
 
-    def list_imports(self, bank_account_id: str) -> Any:
+    def list_imports(self, bank_account_id: str) -> ResponseValue:
         return self._client.get(f"/bank-accounts/{bank_account_id}/imports")
 
-    def find_duplicates(self, bank_account_id: str) -> Any:
+    def find_duplicates(self, bank_account_id: str) -> ResponseValue:
         return self._client.get(f"/bank-accounts/{bank_account_id}/duplicates")
 
-    def validate_balance(self, bank_account_id: str) -> Any:
-        return self._client.post(f"/bank-accounts/{bank_account_id}/validate-balance")
+    def validate_balance(self, bank_account_id: str) -> ResponseValue:
+        return self._client.get(f"/bank-accounts/{bank_account_id}/validate-balance")
 
 
 class AsyncBankAccounts:
@@ -88,7 +90,7 @@ class AsyncBankAccounts:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get(
             "/bank-accounts", params={_to_camel(k): v for k, v in params.items() if v is not None}
         )
@@ -104,9 +106,9 @@ class AsyncBankAccounts:
         account_type: str | None = None,
         color: str | None = None,
         chart_account_id: str | None = None,
-        balance: Any | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+        balance: JSONValue | None = None,
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "accountName": account_name,
             "accountNumber": account_number,
             "bankName": bank_name,
@@ -119,37 +121,37 @@ class AsyncBankAccounts:
         }
         return await self._client.post("/bank-accounts", json={k: v for k, v in body.items() if v is not None})
 
-    async def retrieve(self, bank_account_id: str) -> Any:
+    async def retrieve(self, bank_account_id: str) -> ResponseValue:
         return await self._client.get(f"/bank-accounts/{bank_account_id}")
 
-    async def update(self, bank_account_id: str, **kwargs: Any) -> Any:
+    async def update(self, bank_account_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/bank-accounts/{bank_account_id}", json=body)
 
-    async def delete(self, bank_account_id: str) -> Any:
+    async def delete(self, bank_account_id: str) -> ResponseValue:
         return await self._client.delete(f"/bank-accounts/{bank_account_id}")
 
-    async def import_transactions(self, bank_account_id: str, **kwargs: Any) -> Any:
+    async def import_transactions(self, bank_account_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/bank-accounts/{bank_account_id}/transactions/import", json=body)
 
-    async def sync(self, bank_account_id: str) -> Any:
-        return await self._client.post(f"/bank-accounts/{bank_account_id}/sync")
+    async def sync(self, bank_account_id: str) -> ResponseValue:
+        raise NotImplementedError("The current v1 API does not expose bank account sync; use imports or integrations.")
 
-    async def list_transactions(self, bank_account_id: str, **params: Any) -> Any:
+    async def list_transactions(self, bank_account_id: str, **params: QueryValue) -> ResponseValue:
         return await self._client.get(
             f"/bank-accounts/{bank_account_id}/transactions",
             params={_to_camel(k): v for k, v in params.items() if v is not None},
         )
 
-    async def list_reconciliations(self, bank_account_id: str) -> Any:
+    async def list_reconciliations(self, bank_account_id: str) -> ResponseValue:
         return await self._client.get(f"/bank-accounts/{bank_account_id}/reconciliations")
 
-    async def list_imports(self, bank_account_id: str) -> Any:
+    async def list_imports(self, bank_account_id: str) -> ResponseValue:
         return await self._client.get(f"/bank-accounts/{bank_account_id}/imports")
 
-    async def find_duplicates(self, bank_account_id: str) -> Any:
+    async def find_duplicates(self, bank_account_id: str) -> ResponseValue:
         return await self._client.get(f"/bank-accounts/{bank_account_id}/duplicates")
 
-    async def validate_balance(self, bank_account_id: str) -> Any:
-        return await self._client.post(f"/bank-accounts/{bank_account_id}/validate-balance")
+    async def validate_balance(self, bank_account_id: str) -> ResponseValue:
+        return await self._client.get(f"/bank-accounts/{bank_account_id}/validate-balance")

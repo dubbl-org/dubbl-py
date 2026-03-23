@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -24,8 +26,8 @@ class Accounts:
         type: str | None = None,
         page: int | None = None,
         limit: int | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {"search": search, "type": type, "page": page, "limit": limit}
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {"search": search, "type": type, "page": page, "limit": limit}
         return self._client.get("/accounts", params=params)
 
     def create(
@@ -38,8 +40,8 @@ class Accounts:
         parent_id: str | None = None,
         currency_code: str | None = None,
         description: str | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "code": code,
             "name": name,
             "type": type,
@@ -62,8 +64,8 @@ class Accounts:
         entry_type: str | None = None,
         sort_by: str | None = None,
         sort_order: str | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {
             "page": page,
             "limit": limit,
             "search": search,
@@ -75,11 +77,11 @@ class Accounts:
         }
         return self._client.get(f"/accounts/{account_id}", params=params)
 
-    def update(self, account_id: str, **kwargs: Any) -> Any:
+    def update(self, account_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/accounts/{account_id}", json=body)
 
-    def delete(self, account_id: str) -> Any:
+    def delete(self, account_id: str) -> ResponseValue:
         return self._client.delete(f"/accounts/{account_id}")
 
 
@@ -96,8 +98,8 @@ class AsyncAccounts:
         type: str | None = None,
         page: int | None = None,
         limit: int | None = None,
-    ) -> Any:
-        params: dict[str, Any] = {"search": search, "type": type, "page": page, "limit": limit}
+    ) -> ResponseValue:
+        params: dict[str, JSONValue] = {"search": search, "type": type, "page": page, "limit": limit}
         return await self._client.get("/accounts", params=params)
 
     async def create(
@@ -110,8 +112,8 @@ class AsyncAccounts:
         parent_id: str | None = None,
         currency_code: str | None = None,
         description: str | None = None,
-    ) -> Any:
-        body: dict[str, Any] = {
+    ) -> ResponseValue:
+        body: dict[str, JSONValue] = {
             "code": code,
             "name": name,
             "type": type,
@@ -122,13 +124,13 @@ class AsyncAccounts:
         }
         return await self._client.post("/accounts", json={k: v for k, v in body.items() if v is not None})
 
-    async def retrieve(self, account_id: str, **kwargs: Any) -> Any:
+    async def retrieve(self, account_id: str, **kwargs: JSONValue) -> ResponseValue:
         params = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.get(f"/accounts/{account_id}", params=params)
 
-    async def update(self, account_id: str, **kwargs: Any) -> Any:
+    async def update(self, account_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/accounts/{account_id}", json=body)
 
-    async def delete(self, account_id: str) -> Any:
+    async def delete(self, account_id: str) -> ResponseValue:
         return await self._client.delete(f"/accounts/{account_id}")

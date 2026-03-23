@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
+
+from .._types import JSONValue, QueryValue, ResponseValue
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,33 +19,33 @@ class Quotes:
     def __init__(self, client: SyncAPIClient) -> None:
         self._client = client
 
-    def list(self, **params: Any) -> Any:
+    def list(self, **params: QueryValue) -> ResponseValue:
         return self._client.get("/quotes", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    def create(self, **kwargs: Any) -> Any:
+    def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post("/quotes", json=body)
 
-    def retrieve(self, quote_id: str) -> Any:
+    def retrieve(self, quote_id: str) -> ResponseValue:
         return self._client.get(f"/quotes/{quote_id}")
 
-    def update(self, quote_id: str, **kwargs: Any) -> Any:
+    def update(self, quote_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.patch(f"/quotes/{quote_id}", json=body)
 
-    def delete(self, quote_id: str) -> Any:
+    def delete(self, quote_id: str) -> ResponseValue:
         return self._client.delete(f"/quotes/{quote_id}")
 
-    def send(self, quote_id: str) -> Any:
+    def send(self, quote_id: str) -> ResponseValue:
         return self._client.post(f"/quotes/{quote_id}/send")
 
-    def accept(self, quote_id: str) -> Any:
+    def accept(self, quote_id: str) -> ResponseValue:
         return self._client.post(f"/quotes/{quote_id}/accept")
 
-    def decline(self, quote_id: str) -> Any:
+    def decline(self, quote_id: str) -> ResponseValue:
         return self._client.post(f"/quotes/{quote_id}/decline")
 
-    def convert(self, quote_id: str) -> Any:
+    def convert(self, quote_id: str) -> ResponseValue:
         return self._client.post(f"/quotes/{quote_id}/convert")
 
 
@@ -53,31 +55,31 @@ class AsyncQuotes:
     def __init__(self, client: AsyncAPIClient) -> None:
         self._client = client
 
-    async def list(self, **params: Any) -> Any:
+    async def list(self, **params: QueryValue) -> ResponseValue:
         return await self._client.get("/quotes", params={_to_camel(k): v for k, v in params.items() if v is not None})
 
-    async def create(self, **kwargs: Any) -> Any:
+    async def create(self, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post("/quotes", json=body)
 
-    async def retrieve(self, quote_id: str) -> Any:
+    async def retrieve(self, quote_id: str) -> ResponseValue:
         return await self._client.get(f"/quotes/{quote_id}")
 
-    async def update(self, quote_id: str, **kwargs: Any) -> Any:
+    async def update(self, quote_id: str, **kwargs: JSONValue) -> ResponseValue:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.patch(f"/quotes/{quote_id}", json=body)
 
-    async def delete(self, quote_id: str) -> Any:
+    async def delete(self, quote_id: str) -> ResponseValue:
         return await self._client.delete(f"/quotes/{quote_id}")
 
-    async def send(self, quote_id: str) -> Any:
+    async def send(self, quote_id: str) -> ResponseValue:
         return await self._client.post(f"/quotes/{quote_id}/send")
 
-    async def accept(self, quote_id: str) -> Any:
+    async def accept(self, quote_id: str) -> ResponseValue:
         return await self._client.post(f"/quotes/{quote_id}/accept")
 
-    async def decline(self, quote_id: str) -> Any:
+    async def decline(self, quote_id: str) -> ResponseValue:
         return await self._client.post(f"/quotes/{quote_id}/decline")
 
-    async def convert(self, quote_id: str) -> Any:
+    async def convert(self, quote_id: str) -> ResponseValue:
         return await self._client.post(f"/quotes/{quote_id}/convert")

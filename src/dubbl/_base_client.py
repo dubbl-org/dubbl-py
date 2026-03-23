@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any
+from typing import Literal, cast, overload
 
 import httpx
 
@@ -10,7 +10,7 @@ from ._exceptions import (
     APITimeoutError,
     raise_for_status,
 )
-from ._types import Body, Headers, QueryParams
+from ._types import Body, Headers, JSONValue, QueryParams, ResponseValue
 from ._version import __version__
 
 DEFAULT_BASE_URL = "https://dubbl.dev"
@@ -84,9 +84,49 @@ class SyncAPIClient(BaseClient):
 
     _client: httpx.Client
 
-    def __init__(self, **kwargs: Any) -> None:
-        super().__init__(**kwargs)
+    def __init__(
+        self,
+        *,
+        api_key: str | None = None,
+        base_url: str | None = None,
+        organization_id: str | None = None,
+        timeout: float | None = None,
+        max_retries: int | None = None,
+        default_headers: dict[str, str] | None = None,
+    ) -> None:
+        super().__init__(
+            api_key=api_key,
+            base_url=base_url,
+            organization_id=organization_id,
+            timeout=timeout,
+            max_retries=max_retries,
+            default_headers=default_headers,
+        )
         self._client = httpx.Client(timeout=self.timeout)
+
+    @overload
+    def request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    def request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
 
     def request(
         self,
@@ -97,7 +137,7 @@ class SyncAPIClient(BaseClient):
         params: QueryParams | None = None,
         headers: Headers | None = None,
         raw_response: bool = False,
-    ) -> Any:
+    ) -> ResponseValue:
         url = self._build_url(path)
         req_headers = self._build_headers(headers)
         clean_params = self._prepare_params(params)
@@ -115,7 +155,7 @@ class SyncAPIClient(BaseClient):
                 if raw_response:
                     response.raise_for_status()
                     return response.content
-                body = response.json() if response.content else None
+                body = cast(JSONValue, response.json()) if response.content else None
                 raise_for_status(response.status_code, body=body, response=response)
                 return body
             except httpx.TimeoutException as e:
@@ -127,22 +167,170 @@ class SyncAPIClient(BaseClient):
                 if attempt == self.max_retries:
                     raise last_exc from e
 
-        raise last_exc  # type: ignore[misc]
+        assert last_exc is not None
+        raise last_exc
 
-    def get(self, path: str, **kwargs: Any) -> Any:
-        return self.request("GET", path, **kwargs)
+    @overload
+    def get(
+        self,
+        path: str,
+        *,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
 
-    def post(self, path: str, **kwargs: Any) -> Any:
-        return self.request("POST", path, **kwargs)
+    @overload
+    def get(
+        self,
+        path: str,
+        *,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
 
-    def patch(self, path: str, **kwargs: Any) -> Any:
-        return self.request("PATCH", path, **kwargs)
+    def get(
+        self,
+        path: str,
+        *,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return self.request("GET", path, params=params, headers=headers, raw_response=raw_response)
 
-    def put(self, path: str, **kwargs: Any) -> Any:
-        return self.request("PUT", path, **kwargs)
+    @overload
+    def post(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
 
-    def delete(self, path: str, **kwargs: Any) -> Any:
-        return self.request("DELETE", path, **kwargs)
+    @overload
+    def post(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    def post(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return self.request("POST", path, json=json, params=params, headers=headers, raw_response=raw_response)
+
+    @overload
+    def patch(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    def patch(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    def patch(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return self.request("PATCH", path, json=json, params=params, headers=headers, raw_response=raw_response)
+
+    @overload
+    def put(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    def put(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    def put(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return self.request("PUT", path, json=json, params=params, headers=headers, raw_response=raw_response)
+
+    @overload
+    def delete(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    def delete(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    def delete(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return self.request("DELETE", path, json=json, params=params, headers=headers, raw_response=raw_response)
 
     def close(self) -> None:
         self._client.close()
@@ -150,7 +338,7 @@ class SyncAPIClient(BaseClient):
     def __enter__(self) -> SyncAPIClient:
         return self
 
-    def __exit__(self, *args: Any) -> None:
+    def __exit__(self, *args: object) -> None:
         self.close()
 
 
@@ -159,9 +347,49 @@ class AsyncAPIClient(BaseClient):
 
     _client: httpx.AsyncClient
 
-    def __init__(self, **kwargs: Any) -> None:
-        super().__init__(**kwargs)
+    def __init__(
+        self,
+        *,
+        api_key: str | None = None,
+        base_url: str | None = None,
+        organization_id: str | None = None,
+        timeout: float | None = None,
+        max_retries: int | None = None,
+        default_headers: dict[str, str] | None = None,
+    ) -> None:
+        super().__init__(
+            api_key=api_key,
+            base_url=base_url,
+            organization_id=organization_id,
+            timeout=timeout,
+            max_retries=max_retries,
+            default_headers=default_headers,
+        )
         self._client = httpx.AsyncClient(timeout=self.timeout)
+
+    @overload
+    async def request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    async def request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
 
     async def request(
         self,
@@ -172,7 +400,7 @@ class AsyncAPIClient(BaseClient):
         params: QueryParams | None = None,
         headers: Headers | None = None,
         raw_response: bool = False,
-    ) -> Any:
+    ) -> ResponseValue:
         url = self._build_url(path)
         req_headers = self._build_headers(headers)
         clean_params = self._prepare_params(params)
@@ -190,7 +418,7 @@ class AsyncAPIClient(BaseClient):
                 if raw_response:
                     response.raise_for_status()
                     return response.content
-                body = response.json() if response.content else None
+                body = cast(JSONValue, response.json()) if response.content else None
                 raise_for_status(response.status_code, body=body, response=response)
                 return body
             except httpx.TimeoutException as e:
@@ -202,22 +430,170 @@ class AsyncAPIClient(BaseClient):
                 if attempt == self.max_retries:
                     raise last_exc from e
 
-        raise last_exc  # type: ignore[misc]
+        assert last_exc is not None
+        raise last_exc
 
-    async def get(self, path: str, **kwargs: Any) -> Any:
-        return await self.request("GET", path, **kwargs)
+    @overload
+    async def get(
+        self,
+        path: str,
+        *,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
 
-    async def post(self, path: str, **kwargs: Any) -> Any:
-        return await self.request("POST", path, **kwargs)
+    @overload
+    async def get(
+        self,
+        path: str,
+        *,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
 
-    async def patch(self, path: str, **kwargs: Any) -> Any:
-        return await self.request("PATCH", path, **kwargs)
+    async def get(
+        self,
+        path: str,
+        *,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return await self.request("GET", path, params=params, headers=headers, raw_response=raw_response)
 
-    async def put(self, path: str, **kwargs: Any) -> Any:
-        return await self.request("PUT", path, **kwargs)
+    @overload
+    async def post(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
 
-    async def delete(self, path: str, **kwargs: Any) -> Any:
-        return await self.request("DELETE", path, **kwargs)
+    @overload
+    async def post(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    async def post(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return await self.request("POST", path, json=json, params=params, headers=headers, raw_response=raw_response)
+
+    @overload
+    async def patch(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    async def patch(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    async def patch(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return await self.request("PATCH", path, json=json, params=params, headers=headers, raw_response=raw_response)
+
+    @overload
+    async def put(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    async def put(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    async def put(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return await self.request("PUT", path, json=json, params=params, headers=headers, raw_response=raw_response)
+
+    @overload
+    async def delete(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[True],
+    ) -> bytes: ...
+
+    @overload
+    async def delete(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: Literal[False] = False,
+    ) -> JSONValue: ...
+
+    async def delete(
+        self,
+        path: str,
+        *,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
+        raw_response: bool = False,
+    ) -> ResponseValue:
+        return await self.request("DELETE", path, json=json, params=params, headers=headers, raw_response=raw_response)
 
     async def close(self) -> None:
         await self._client.aclose()
@@ -225,5 +601,5 @@ class AsyncAPIClient(BaseClient):
     async def __aenter__(self) -> AsyncAPIClient:
         return self
 
-    async def __aexit__(self, *args: Any) -> None:
+    async def __aexit__(self, *args: object) -> None:
         await self.close()
