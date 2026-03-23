@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -24,7 +25,9 @@ class FixedAssets:
         return self._client.get(f"/fixed-assets/{id}")
 
     def update(self, id: str, **kwargs: Any) -> Any:
-        return self._client.patch(f"/fixed-assets/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.patch(
+            f"/fixed-assets/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/fixed-assets/{id}")
@@ -49,13 +52,17 @@ class AsyncFixedAssets:
         return await self._client.get("/fixed-assets", params={k: v for k, v in params.items() if v is not None})
 
     async def create(self, **kwargs: Any) -> Any:
-        return await self._client.post("/fixed-assets", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/fixed-assets", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def retrieve(self, id: str) -> Any:
         return await self._client.get(f"/fixed-assets/{id}")
 
     async def update(self, id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/fixed-assets/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            f"/fixed-assets/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/fixed-assets/{id}")

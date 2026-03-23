@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -29,7 +30,9 @@ class Notifications:
         return self._client.get("/notifications/preferences")
 
     def update_preferences(self, **kwargs: Any) -> Any:
-        return self._client.patch("/notifications/preferences", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.patch(
+            "/notifications/preferences", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
 
 class AsyncNotifications:
@@ -51,4 +54,6 @@ class AsyncNotifications:
         return await self._client.get("/notifications/preferences")
 
     async def update_preferences(self, **kwargs: Any) -> Any:
-        return await self._client.patch("/notifications/preferences", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            "/notifications/preferences", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )

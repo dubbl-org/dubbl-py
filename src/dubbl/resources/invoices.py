@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import builtins
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -19,17 +21,17 @@ class Invoices:
     def list(
         self,
         *,
-        search: Optional[str] = None,
-        status: Optional[str] = None,
-        contact_id: Optional[str] = None,
-        from_date: Optional[str] = None,
-        to_date: Optional[str] = None,
-        sort_by: Optional[str] = None,
-        sort_order: Optional[str] = None,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
+        search: str | None = None,
+        status: str | None = None,
+        contact_id: str | None = None,
+        from_date: str | None = None,
+        to_date: str | None = None,
+        sort_by: str | None = None,
+        sort_order: str | None = None,
+        page: int | None = None,
+        limit: int | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "search": search,
             "status": status,
             "contactId": contact_id,
@@ -47,13 +49,13 @@ class Invoices:
         *,
         contact_id: str,
         issue_date: str,
-        due_date: Optional[str] = None,
-        reference: Optional[str] = None,
-        notes: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        lines: Optional[List[Dict[str, Any]]] = None,
+        due_date: str | None = None,
+        reference: str | None = None,
+        notes: str | None = None,
+        currency_code: str | None = None,
+        lines: builtins.list[dict[str, Any]] | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "contactId": contact_id,
             "issueDate": issue_date,
             "dueDate": due_date,
@@ -130,17 +132,17 @@ class AsyncInvoices:
     async def list(
         self,
         *,
-        search: Optional[str] = None,
-        status: Optional[str] = None,
-        contact_id: Optional[str] = None,
-        from_date: Optional[str] = None,
-        to_date: Optional[str] = None,
-        sort_by: Optional[str] = None,
-        sort_order: Optional[str] = None,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
+        search: str | None = None,
+        status: str | None = None,
+        contact_id: str | None = None,
+        from_date: str | None = None,
+        to_date: str | None = None,
+        sort_by: str | None = None,
+        sort_order: str | None = None,
+        page: int | None = None,
+        limit: int | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "search": search,
             "status": status,
             "contactId": contact_id,
@@ -158,13 +160,13 @@ class AsyncInvoices:
         *,
         contact_id: str,
         issue_date: str,
-        due_date: Optional[str] = None,
-        reference: Optional[str] = None,
-        notes: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        lines: Optional[List[Dict[str, Any]]] = None,
+        due_date: str | None = None,
+        reference: str | None = None,
+        notes: str | None = None,
+        currency_code: str | None = None,
+        lines: builtins.list[dict[str, Any]] | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "contactId": contact_id,
             "issueDate": issue_date,
             "dueDate": due_date,

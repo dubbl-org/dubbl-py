@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -43,7 +44,7 @@ class BankTransactions:
 
     def create_expense(self, transaction_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.post(f"/bank-transactions/{transaction_id}/expense", json=body)
+        return self._client.post(f"/bank-transactions/{transaction_id}/create-expense", json=body)
 
     def activity(self, transaction_id: str) -> Any:
         return self._client.get(f"/bank-transactions/{transaction_id}/activity")
@@ -82,7 +83,7 @@ class AsyncBankTransactions:
 
     async def create_expense(self, transaction_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.post(f"/bank-transactions/{transaction_id}/expense", json=body)
+        return await self._client.post(f"/bank-transactions/{transaction_id}/create-expense", json=body)
 
     async def activity(self, transaction_id: str) -> Any:
         return await self._client.get(f"/bank-transactions/{transaction_id}/activity")

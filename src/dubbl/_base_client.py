@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Optional, Union
-from urllib.parse import urljoin
+from typing import Any
 
 import httpx
 
@@ -24,20 +23,20 @@ class BaseClient:
 
     api_key: str
     base_url: str
-    organization_id: Optional[str]
+    organization_id: str | None
     timeout: float
     max_retries: int
-    _custom_headers: Dict[str, str]
+    _custom_headers: dict[str, str]
 
     def __init__(
         self,
         *,
-        api_key: Optional[str] = None,
-        base_url: Optional[str] = None,
-        organization_id: Optional[str] = None,
-        timeout: Optional[float] = None,
-        max_retries: Optional[int] = None,
-        default_headers: Optional[Dict[str, str]] = None,
+        api_key: str | None = None,
+        base_url: str | None = None,
+        organization_id: str | None = None,
+        timeout: float | None = None,
+        max_retries: int | None = None,
+        default_headers: dict[str, str] | None = None,
     ) -> None:
         self.api_key = api_key or os.environ.get("DUBBL_API_KEY", "")
         if not self.api_key:
@@ -51,8 +50,8 @@ class BaseClient:
         self.max_retries = max_retries if max_retries is not None else DEFAULT_MAX_RETRIES
         self._custom_headers = default_headers or {}
 
-    def _build_headers(self, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
-        headers: Dict[str, str] = {
+    def _build_headers(self, extra: dict[str, str] | None = None) -> dict[str, str]:
+        headers: dict[str, str] = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -66,11 +65,15 @@ class BaseClient:
         return headers
 
     def _build_url(self, path: str) -> str:
+        if path.startswith(("http://", "https://")):
+            return path
+        if path.startswith("/api/"):
+            return f"{self.base_url}{path}"
         if not path.startswith("/"):
             path = f"/{path}"
         return f"{self.base_url}/api/v1{path}"
 
-    def _prepare_params(self, params: Optional[QueryParams]) -> Optional[QueryParams]:
+    def _prepare_params(self, params: QueryParams | None) -> QueryParams | None:
         if params is None:
             return None
         return {k: v for k, v in params.items() if v is not None}
@@ -90,16 +93,16 @@ class SyncAPIClient(BaseClient):
         method: str,
         path: str,
         *,
-        json: Optional[Body] = None,
-        params: Optional[QueryParams] = None,
-        headers: Optional[Headers] = None,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
         raw_response: bool = False,
     ) -> Any:
         url = self._build_url(path)
         req_headers = self._build_headers(headers)
         clean_params = self._prepare_params(params)
 
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
         for attempt in range(self.max_retries + 1):
             try:
                 response = self._client.request(
@@ -165,16 +168,16 @@ class AsyncAPIClient(BaseClient):
         method: str,
         path: str,
         *,
-        json: Optional[Body] = None,
-        params: Optional[QueryParams] = None,
-        headers: Optional[Headers] = None,
+        json: Body | None = None,
+        params: QueryParams | None = None,
+        headers: Headers | None = None,
         raw_response: bool = False,
     ) -> Any:
         url = self._build_url(path)
         req_headers = self._build_headers(headers)
         clean_params = self._prepare_params(params)
 
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
         for attempt in range(self.max_retries + 1):
             try:
                 response = await self._client.request(

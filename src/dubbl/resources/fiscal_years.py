@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -24,7 +25,9 @@ class FiscalYears:
         return self._client.get(f"/fiscal-years/{id}")
 
     def update(self, id: str, **kwargs: Any) -> Any:
-        return self._client.patch(f"/fiscal-years/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.patch(
+            f"/fiscal-years/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/fiscal-years/{id}")
@@ -44,13 +47,17 @@ class AsyncFiscalYears:
         return await self._client.get("/fiscal-years", params={k: v for k, v in params.items() if v is not None})
 
     async def create(self, **kwargs: Any) -> Any:
-        return await self._client.post("/fiscal-years", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/fiscal-years", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def retrieve(self, id: str) -> Any:
         return await self._client.get(f"/fiscal-years/{id}")
 
     async def update(self, id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/fiscal-years/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            f"/fiscal-years/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/fiscal-years/{id}")

@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -23,16 +24,16 @@ class BankAccounts:
         self,
         *,
         account_name: str,
-        account_number: Optional[str] = None,
-        bank_name: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        country_code: Optional[str] = None,
-        account_type: Optional[str] = None,
-        color: Optional[str] = None,
-        chart_account_id: Optional[str] = None,
-        balance: Optional[Any] = None,
+        account_number: str | None = None,
+        bank_name: str | None = None,
+        currency_code: str | None = None,
+        country_code: str | None = None,
+        account_type: str | None = None,
+        color: str | None = None,
+        chart_account_id: str | None = None,
+        balance: Any | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "accountName": account_name,
             "accountNumber": account_number,
             "bankName": bank_name,
@@ -63,7 +64,10 @@ class BankAccounts:
         return self._client.post(f"/bank-accounts/{bank_account_id}/sync")
 
     def list_transactions(self, bank_account_id: str, **params: Any) -> Any:
-        return self._client.get(f"/bank-accounts/{bank_account_id}/transactions", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return self._client.get(
+            f"/bank-accounts/{bank_account_id}/transactions",
+            params={_to_camel(k): v for k, v in params.items() if v is not None},
+        )
 
     def list_reconciliations(self, bank_account_id: str) -> Any:
         return self._client.get(f"/bank-accounts/{bank_account_id}/reconciliations")
@@ -85,22 +89,24 @@ class AsyncBankAccounts:
         self._client = client
 
     async def list(self, **params: Any) -> Any:
-        return await self._client.get("/bank-accounts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/bank-accounts", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     async def create(
         self,
         *,
         account_name: str,
-        account_number: Optional[str] = None,
-        bank_name: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        country_code: Optional[str] = None,
-        account_type: Optional[str] = None,
-        color: Optional[str] = None,
-        chart_account_id: Optional[str] = None,
-        balance: Optional[Any] = None,
+        account_number: str | None = None,
+        bank_name: str | None = None,
+        currency_code: str | None = None,
+        country_code: str | None = None,
+        account_type: str | None = None,
+        color: str | None = None,
+        chart_account_id: str | None = None,
+        balance: Any | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "accountName": account_name,
             "accountNumber": account_number,
             "bankName": bank_name,
@@ -131,7 +137,10 @@ class AsyncBankAccounts:
         return await self._client.post(f"/bank-accounts/{bank_account_id}/sync")
 
     async def list_transactions(self, bank_account_id: str, **params: Any) -> Any:
-        return await self._client.get(f"/bank-accounts/{bank_account_id}/transactions", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            f"/bank-accounts/{bank_account_id}/transactions",
+            params={_to_camel(k): v for k, v in params.items() if v is not None},
+        )
 
     async def list_reconciliations(self, bank_account_id: str) -> Any:
         return await self._client.get(f"/bank-accounts/{bank_account_id}/reconciliations")

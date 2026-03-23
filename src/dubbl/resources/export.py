@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -10,7 +11,7 @@ class Export:
         self._client = client
 
     def all(self, **params: Any) -> Any:
-        return self._client.get("/export", params={k: v for k, v in params.items() if v is not None})
+        return self._client.get("/export/all", params={k: v for k, v in params.items() if v is not None})
 
     def accounts(self, **params: Any) -> Any:
         return self._client.get("/export/accounts", params={k: v for k, v in params.items() if v is not None})
@@ -39,7 +40,7 @@ class AsyncExport:
         self._client = client
 
     async def all(self, **params: Any) -> Any:
-        return await self._client.get("/export", params={k: v for k, v in params.items() if v is not None})
+        return await self._client.get("/export/all", params={k: v for k, v in params.items() if v is not None})
 
     async def accounts(self, **params: Any) -> Any:
         return await self._client.get("/export/accounts", params={k: v for k, v in params.items() if v is not None})
@@ -60,4 +61,6 @@ class AsyncExport:
         return await self._client.get("/export/products", params={k: v for k, v in params.items() if v is not None})
 
     async def bank_transactions(self, **params: Any) -> Any:
-        return await self._client.get("/export/bank-transactions", params={k: v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/export/bank-transactions", params={k: v for k, v in params.items() if v is not None}
+        )

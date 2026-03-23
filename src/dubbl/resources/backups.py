@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -15,6 +16,12 @@ class Backups:
     def create(self) -> Any:
         return self._client.post("/backups")
 
+    def retrieve(self, backup_id: str) -> Any:
+        return self._client.get(f"/backups/{backup_id}")
+
+    def delete(self, backup_id: str) -> Any:
+        return self._client.delete(f"/backups/{backup_id}")
+
     def restore(self, backup_id: str) -> Any:
         return self._client.post(f"/backups/{backup_id}/restore")
 
@@ -26,7 +33,9 @@ class Backups:
         return self._client.post("/backups/upload", json=body)
 
     def download_snapshot(self, **params: Any) -> Any:
-        return self._client.get("/backups/download-snapshot", params={k: v for k, v in params.items() if v is not None}, raw_response=True)
+        return self._client.get(
+            "/backups/download-snapshot", params={k: v for k, v in params.items() if v is not None}, raw_response=True
+        )
 
 
 class AsyncBackups:
@@ -39,6 +48,12 @@ class AsyncBackups:
     async def create(self) -> Any:
         return await self._client.post("/backups")
 
+    async def retrieve(self, backup_id: str) -> Any:
+        return await self._client.get(f"/backups/{backup_id}")
+
+    async def delete(self, backup_id: str) -> Any:
+        return await self._client.delete(f"/backups/{backup_id}")
+
     async def restore(self, backup_id: str) -> Any:
         return await self._client.post(f"/backups/{backup_id}/restore")
 
@@ -50,4 +65,6 @@ class AsyncBackups:
         return await self._client.post("/backups/upload", json=body)
 
     async def download_snapshot(self, **params: Any) -> Any:
-        return await self._client.get("/backups/download-snapshot", params={k: v for k, v in params.items() if v is not None}, raw_response=True)
+        return await self._client.get(
+            "/backups/download-snapshot", params={k: v for k, v in params.items() if v is not None}, raw_response=True
+        )

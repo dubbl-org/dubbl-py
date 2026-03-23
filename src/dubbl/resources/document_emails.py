@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -23,7 +24,9 @@ class DocumentEmails:
         return self._client.post("/document-emails", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
 
     def preview(self, **kwargs: Any) -> Any:
-        return self._client.post("/document-emails/preview", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.post(
+            "/document-emails/preview", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     def retrieve(self, email_id: str) -> Any:
         return self._client.get(f"/document-emails/{email_id}")
@@ -42,10 +45,14 @@ class AsyncDocumentEmails:
         return await self._client.get("/document-emails", params={k: v for k, v in params.items() if v is not None})
 
     async def send(self, **kwargs: Any) -> Any:
-        return await self._client.post("/document-emails", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/document-emails", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def preview(self, **kwargs: Any) -> Any:
-        return await self._client.post("/document-emails/preview", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/document-emails/preview", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def retrieve(self, email_id: str) -> Any:
         return await self._client.get(f"/document-emails/{email_id}")

@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -52,7 +53,9 @@ class AsyncTags:
         return await self._client.get(f"/tags/{id}")
 
     async def update(self, id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/tags/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            f"/tags/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/tags/{id}")

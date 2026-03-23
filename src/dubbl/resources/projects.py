@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -57,6 +58,17 @@ class Projects:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return self._client.post(f"/projects/{project_id}/teams", json=body)
 
+    def list_team_assignments(self, project_id: str) -> Any:
+        return self._client.get(f"/projects/{project_id}/team-assignments")
+
+    def create_team_assignment(self, project_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/projects/{project_id}/team-assignments", json=body)
+
+    def delete_team_assignment(self, project_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.delete(f"/projects/{project_id}/team-assignments", json=body)
+
     # Milestones
     def list_milestones(self, project_id: str) -> Any:
         return self._client.get(f"/projects/{project_id}/milestones")
@@ -75,6 +87,17 @@ class Projects:
     def delete_milestone(self, project_id: str, milestone_id: str) -> Any:
         return self._client.delete(f"/projects/{project_id}/milestones/{milestone_id}")
 
+    def list_milestone_assignments(self, project_id: str, milestone_id: str) -> Any:
+        return self._client.get(f"/projects/{project_id}/milestones/{milestone_id}/assignments")
+
+    def create_milestone_assignment(self, project_id: str, milestone_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/projects/{project_id}/milestones/{milestone_id}/assignments", json=body)
+
+    def update_milestone_assignments(self, project_id: str, milestone_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/projects/{project_id}/milestones/{milestone_id}/assignments", json=body)
+
     # Tasks
     def list_tasks(self, project_id: str) -> Any:
         return self._client.get(f"/projects/{project_id}/tasks")
@@ -92,6 +115,21 @@ class Projects:
 
     def delete_task(self, project_id: str, task_id: str) -> Any:
         return self._client.delete(f"/projects/{project_id}/tasks/{task_id}")
+
+    def get_task_checklist(self, project_id: str, task_id: str) -> Any:
+        return self._client.get(f"/projects/{project_id}/tasks/{task_id}/checklist")
+
+    def create_task_checklist_item(self, project_id: str, task_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.post(f"/projects/{project_id}/tasks/{task_id}/checklist", json=body)
+
+    def update_task_checklist(self, project_id: str, task_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.patch(f"/projects/{project_id}/tasks/{task_id}/checklist", json=body)
+
+    def delete_task_checklist_item(self, project_id: str, task_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return self._client.delete(f"/projects/{project_id}/tasks/{task_id}/checklist", json=body)
 
     # Task comments
     def list_task_comments(self, project_id: str, task_id: str) -> Any:
@@ -159,7 +197,9 @@ class AsyncProjects:
         return await self._client.get(f"/projects/{id}")
 
     async def update(self, id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/projects/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            f"/projects/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/projects/{id}")
@@ -192,6 +232,17 @@ class AsyncProjects:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
         return await self._client.post(f"/projects/{project_id}/teams", json=body)
 
+    async def list_team_assignments(self, project_id: str) -> Any:
+        return await self._client.get(f"/projects/{project_id}/team-assignments")
+
+    async def create_team_assignment(self, project_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/projects/{project_id}/team-assignments", json=body)
+
+    async def delete_team_assignment(self, project_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.delete(f"/projects/{project_id}/team-assignments", json=body)
+
     # Milestones
     async def list_milestones(self, project_id: str) -> Any:
         return await self._client.get(f"/projects/{project_id}/milestones")
@@ -210,6 +261,17 @@ class AsyncProjects:
     async def delete_milestone(self, project_id: str, milestone_id: str) -> Any:
         return await self._client.delete(f"/projects/{project_id}/milestones/{milestone_id}")
 
+    async def list_milestone_assignments(self, project_id: str, milestone_id: str) -> Any:
+        return await self._client.get(f"/projects/{project_id}/milestones/{milestone_id}/assignments")
+
+    async def create_milestone_assignment(self, project_id: str, milestone_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/projects/{project_id}/milestones/{milestone_id}/assignments", json=body)
+
+    async def update_milestone_assignments(self, project_id: str, milestone_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/projects/{project_id}/milestones/{milestone_id}/assignments", json=body)
+
     # Tasks
     async def list_tasks(self, project_id: str) -> Any:
         return await self._client.get(f"/projects/{project_id}/tasks")
@@ -227,6 +289,21 @@ class AsyncProjects:
 
     async def delete_task(self, project_id: str, task_id: str) -> Any:
         return await self._client.delete(f"/projects/{project_id}/tasks/{task_id}")
+
+    async def get_task_checklist(self, project_id: str, task_id: str) -> Any:
+        return await self._client.get(f"/projects/{project_id}/tasks/{task_id}/checklist")
+
+    async def create_task_checklist_item(self, project_id: str, task_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.post(f"/projects/{project_id}/tasks/{task_id}/checklist", json=body)
+
+    async def update_task_checklist(self, project_id: str, task_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.patch(f"/projects/{project_id}/tasks/{task_id}/checklist", json=body)
+
+    async def delete_task_checklist_item(self, project_id: str, task_id: str, **kwargs: Any) -> Any:
+        body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        return await self._client.delete(f"/projects/{project_id}/tasks/{task_id}/checklist", json=body)
 
     # Task comments
     async def list_task_comments(self, project_id: str, task_id: str) -> Any:

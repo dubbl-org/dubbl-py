@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -24,7 +25,9 @@ class CostCenters:
         return self._client.get(f"/cost-centers/{id}")
 
     def update(self, id: str, **kwargs: Any) -> Any:
-        return self._client.patch(f"/cost-centers/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.patch(
+            f"/cost-centers/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     def delete(self, id: str) -> Any:
         return self._client.delete(f"/cost-centers/{id}")
@@ -38,13 +41,17 @@ class AsyncCostCenters:
         return await self._client.get("/cost-centers", params={k: v for k, v in params.items() if v is not None})
 
     async def create(self, **kwargs: Any) -> Any:
-        return await self._client.post("/cost-centers", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/cost-centers", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def retrieve(self, id: str) -> Any:
         return await self._client.get(f"/cost-centers/{id}")
 
     async def update(self, id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/cost-centers/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            f"/cost-centers/{id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def delete(self, id: str) -> Any:
         return await self._client.delete(f"/cost-centers/{id}")

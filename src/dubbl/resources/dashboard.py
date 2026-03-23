@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -23,19 +24,25 @@ class Dashboard:
         return self._client.get("/dashboard/layouts", params={k: v for k, v in params.items() if v is not None})
 
     def create_layout(self, **kwargs: Any) -> Any:
-        return self._client.post("/dashboard/layouts", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.post(
+            "/dashboard/layouts", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     def retrieve_layout(self, layout_id: str) -> Any:
         return self._client.get(f"/dashboard/layouts/{layout_id}")
 
     def update_layout(self, layout_id: str, **kwargs: Any) -> Any:
-        return self._client.patch(f"/dashboard/layouts/{layout_id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.patch(
+            f"/dashboard/layouts/{layout_id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     def delete_layout(self, layout_id: str) -> Any:
         return self._client.delete(f"/dashboard/layouts/{layout_id}")
 
     def get_widget_data(self, widget_type: str, **params: Any) -> Any:
-        return self._client.get(f"/dashboard/widgets/{widget_type}", params={k: v for k, v in params.items() if v is not None})
+        return self._client.get(
+            f"/dashboard/widgets/{widget_type}/data", params={k: v for k, v in params.items() if v is not None}
+        )
 
 
 class AsyncDashboard:
@@ -51,16 +58,22 @@ class AsyncDashboard:
         return await self._client.get("/dashboard/layouts", params={k: v for k, v in params.items() if v is not None})
 
     async def create_layout(self, **kwargs: Any) -> Any:
-        return await self._client.post("/dashboard/layouts", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/dashboard/layouts", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def retrieve_layout(self, layout_id: str) -> Any:
         return await self._client.get(f"/dashboard/layouts/{layout_id}")
 
     async def update_layout(self, layout_id: str, **kwargs: Any) -> Any:
-        return await self._client.patch(f"/dashboard/layouts/{layout_id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            f"/dashboard/layouts/{layout_id}", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def delete_layout(self, layout_id: str) -> Any:
         return await self._client.delete(f"/dashboard/layouts/{layout_id}")
 
     async def get_widget_data(self, widget_type: str, **params: Any) -> Any:
-        return await self._client.get(f"/dashboard/widgets/{widget_type}", params={k: v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            f"/dashboard/widgets/{widget_type}/data", params={k: v for k, v in params.items() if v is not None}
+        )

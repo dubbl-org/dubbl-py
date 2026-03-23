@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import builtins
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -24,11 +26,11 @@ class Entries:
         *,
         date: str,
         description: str,
-        lines: List[Dict[str, Any]],
-        reference: Optional[str] = None,
-        fiscal_year_id: Optional[str] = None,
+        lines: builtins.list[dict[str, Any]],
+        reference: str | None = None,
+        fiscal_year_id: str | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "date": date,
             "description": description,
             "lines": lines,
@@ -64,11 +66,11 @@ class AsyncEntries:
         *,
         date: str,
         description: str,
-        lines: List[Dict[str, Any]],
-        reference: Optional[str] = None,
-        fiscal_year_id: Optional[str] = None,
+        lines: builtins.list[dict[str, Any]],
+        reference: str | None = None,
+        fiscal_year_id: str | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "date": date,
             "description": description,
             "lines": lines,

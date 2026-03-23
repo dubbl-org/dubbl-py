@@ -1,81 +1,86 @@
 from .accounts import Accounts, AsyncAccounts
-from .entries import Entries, AsyncEntries
-from .invoices import Invoices, AsyncInvoices
-from .bills import Bills, AsyncBills
-from .contacts import Contacts, AsyncContacts
-from .payments import Payments, AsyncPayments
-from .bank_accounts import BankAccounts, AsyncBankAccounts
-from .bank_transactions import BankTransactions, AsyncBankTransactions
-from .quotes import Quotes, AsyncQuotes
-from .expenses import Expenses, AsyncExpenses
-from .inventory import Inventory, AsyncInventory
-from .organization import Organization, AsyncOrganization
-from .members import Members, AsyncMembers
-from .api_keys import ApiKeys, AsyncApiKeys
-from .reports import Reports, AsyncReports
-from .audit_log import AuditLog, AsyncAuditLog
-from .tax_rates import TaxRates, AsyncTaxRates
-from .budgets import Budgets, AsyncBudgets
-from .fixed_assets import FixedAssets, AsyncFixedAssets
-from .projects import Projects, AsyncProjects
-from .cost_centers import CostCenters, AsyncCostCenters
-from .credit_notes import CreditNotes, AsyncCreditNotes
-from .purchase_orders import PurchaseOrders, AsyncPurchaseOrders
-from .recurring import Recurring, AsyncRecurring
-from .fiscal_years import FiscalYears, AsyncFiscalYears
-from .webhooks import Webhooks, AsyncWebhooks
-from .roles import Roles, AsyncRoles
-from .tags import Tags, AsyncTags
-from .documents import Documents, AsyncDocuments
-from .attachments import Attachments, AsyncAttachments
-from .trash import Trash, AsyncTrash
-from .export import Export, AsyncExport
-from .backups import Backups, AsyncBackups
-from .user import User, AsyncUser
-from .payroll import Payroll, AsyncPayroll
-from .crm import CRM, AsyncCRM
-from .bulk import Bulk, AsyncBulk
-from .consolidation import Consolidation, AsyncConsolidation
-from .dashboard import Dashboard, AsyncDashboard
-from .debit_notes import DebitNotes, AsyncDebitNotes
-from .document_emails import DocumentEmails, AsyncDocumentEmails
-from .document_templates import DocumentTemplates, AsyncDocumentTemplates
-from .email_config import EmailConfig, AsyncEmailConfig
-from .exchange_rates import ExchangeRates, AsyncExchangeRates
-from .bank_rules import BankRules, AsyncBankRules
-from .bank_imports import BankImports, AsyncBankImports
-from .approval_workflows import ApprovalWorkflows, AsyncApprovalWorkflows
-from .approval_requests import ApprovalRequests, AsyncApprovalRequests
-from .notifications import Notifications, AsyncNotifications
-from .ocr import OCR, AsyncOCR
-from .opening_balances import OpeningBalances, AsyncOpeningBalances
-from .payment_batches import PaymentBatches, AsyncPaymentBatches
-from .period_lock import PeriodLock, AsyncPeriodLock
-from .portal import Portal, AsyncPortal
-from .purchase_requisitions import PurchaseRequisitions, AsyncPurchaseRequisitions
-from .reminders import Reminders, AsyncReminders
-from .reminder_rules import ReminderRules, AsyncReminderRules
-from .report_schedules import ReportSchedules, AsyncReportSchedules
-from .revenue_schedules import RevenueSchedules, AsyncRevenueSchedules
 from .accrual_schedules import AccrualSchedules, AsyncAccrualSchedules
-from .scheduled_payments import ScheduledPayments, AsyncScheduledPayments
-from .sessions import Sessions, AsyncSessions
-from .stock_takes import StockTakes, AsyncStockTakes
-from .tax_periods import TaxPeriods, AsyncTaxPeriods
-from .teams import Teams, AsyncTeams
-from .warehouses import Warehouses, AsyncWarehouses
-from .workflows import Workflows, AsyncWorkflows
-from .loans import Loans, AsyncLoans
-from .landed_costs import LandedCosts, AsyncLandedCosts
-from .invitations import Invitations, AsyncInvitations
-from .invite_links import InviteLinks, AsyncInviteLinks
+from .admin import Admin, AsyncAdmin
 from .advisors import Advisors, AsyncAdvisors
-from .billing import Billing, AsyncBilling
-from .tax_lookup import TaxLookup, AsyncTaxLookup
+from .api_keys import ApiKeys, AsyncApiKeys
+from .approval_requests import ApprovalRequests, AsyncApprovalRequests
+from .approval_workflows import ApprovalWorkflows, AsyncApprovalWorkflows
+from .attachments import AsyncAttachments, Attachments
+from .audit_log import AsyncAuditLog, AuditLog
+from .backups import AsyncBackups, Backups
+from .bank_accounts import AsyncBankAccounts, BankAccounts
+from .bank_imports import AsyncBankImports, BankImports
+from .bank_rules import AsyncBankRules, BankRules
+from .bank_transactions import AsyncBankTransactions, BankTransactions
+from .billing import AsyncBilling, Billing
+from .bills import AsyncBills, Bills
+from .budgets import AsyncBudgets, Budgets
+from .bulk import AsyncBulk, Bulk
+from .consolidation import AsyncConsolidation, Consolidation
+from .contacts import AsyncContacts, Contacts
+from .cost_centers import AsyncCostCenters, CostCenters
+from .credit_notes import AsyncCreditNotes, CreditNotes
+from .crm import CRM, AsyncCRM
+from .currencies import AsyncCurrencies, Currencies
+from .dashboard import AsyncDashboard, Dashboard
+from .debit_notes import AsyncDebitNotes, DebitNotes
+from .document_emails import AsyncDocumentEmails, DocumentEmails
+from .document_templates import AsyncDocumentTemplates, DocumentTemplates
+from .documents import AsyncDocuments, Documents
+from .email_config import AsyncEmailConfig, EmailConfig
+from .entries import AsyncEntries, Entries
+from .exchange_rates import AsyncExchangeRates, ExchangeRates
+from .expenses import AsyncExpenses, Expenses
+from .export import AsyncExport, Export
+from .fiscal_years import AsyncFiscalYears, FiscalYears
+from .fixed_assets import AsyncFixedAssets, FixedAssets
+from .integrations import AsyncIntegrations, Integrations
+from .inventory import AsyncInventory, Inventory
+from .invitations import AsyncInvitations, Invitations
+from .invite_links import AsyncInviteLinks, InviteLinks
+from .invoices import AsyncInvoices, Invoices
+from .landed_costs import AsyncLandedCosts, LandedCosts
+from .loans import AsyncLoans, Loans
+from .members import AsyncMembers, Members
+from .notifications import AsyncNotifications, Notifications
+from .ocr import OCR, AsyncOCR
+from .opening_balances import AsyncOpeningBalances, OpeningBalances
+from .organization import AsyncOrganization, Organization
+from .payment_batches import AsyncPaymentBatches, PaymentBatches
+from .payments import AsyncPayments, Payments
+from .payroll import AsyncPayroll, Payroll
+from .period_lock import AsyncPeriodLock, PeriodLock
+from .portal import AsyncPortal, Portal
+from .projects import AsyncProjects, Projects
+from .purchase_orders import AsyncPurchaseOrders, PurchaseOrders
+from .purchase_requisitions import AsyncPurchaseRequisitions, PurchaseRequisitions
+from .quotes import AsyncQuotes, Quotes
+from .recurring import AsyncRecurring, Recurring
+from .reminder_rules import AsyncReminderRules, ReminderRules
+from .reminders import AsyncReminders, Reminders
+from .report_schedules import AsyncReportSchedules, ReportSchedules
+from .reports import AsyncReports, Reports
+from .revenue_schedules import AsyncRevenueSchedules, RevenueSchedules
+from .roles import AsyncRoles, Roles
+from .scheduled_payments import AsyncScheduledPayments, ScheduledPayments
+from .sessions import AsyncSessions, Sessions
+from .stock_takes import AsyncStockTakes, StockTakes
+from .tags import AsyncTags, Tags
+from .tax_lookup import AsyncTaxLookup, TaxLookup
+from .tax_periods import AsyncTaxPeriods, TaxPeriods
+from .tax_rates import AsyncTaxRates, TaxRates
+from .teams import AsyncTeams, Teams
+from .trash import AsyncTrash, Trash
+from .user import AsyncUser, User
+from .warehouses import AsyncWarehouses, Warehouses
+from .webhooks import AsyncWebhooks, Webhooks
+from .workflows import AsyncWorkflows, Workflows
 
 __all__ = [
     "Accounts",
     "AsyncAccounts",
+    "Admin",
+    "AsyncAdmin",
     "Entries",
     "AsyncEntries",
     "Invoices",
@@ -112,6 +117,8 @@ __all__ = [
     "AsyncBudgets",
     "FixedAssets",
     "AsyncFixedAssets",
+    "Integrations",
+    "AsyncIntegrations",
     "Projects",
     "AsyncProjects",
     "CostCenters",
@@ -120,6 +127,8 @@ __all__ = [
     "AsyncCreditNotes",
     "PurchaseOrders",
     "AsyncPurchaseOrders",
+    "Currencies",
+    "AsyncCurrencies",
     "Recurring",
     "AsyncRecurring",
     "FiscalYears",

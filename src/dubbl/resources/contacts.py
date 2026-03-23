@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import builtins
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -19,16 +21,16 @@ class Contacts:
     def list(
         self,
         *,
-        search: Optional[str] = None,
-        type: Optional[str] = None,
-        from_date: Optional[str] = None,
-        to_date: Optional[str] = None,
-        sort_by: Optional[str] = None,
-        sort_order: Optional[str] = None,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
+        search: str | None = None,
+        type: str | None = None,
+        from_date: str | None = None,
+        to_date: str | None = None,
+        sort_by: str | None = None,
+        sort_order: str | None = None,
+        page: int | None = None,
+        limit: int | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "search": search,
             "type": type,
             "from": from_date,
@@ -44,16 +46,16 @@ class Contacts:
         self,
         *,
         name: str,
-        email: Optional[str] = None,
-        phone: Optional[str] = None,
-        tax_number: Optional[str] = None,
-        type: Optional[str] = None,
-        payment_terms_days: Optional[int] = None,
-        addresses: Optional[List[Dict[str, Any]]] = None,
-        notes: Optional[str] = None,
-        currency_code: Optional[str] = None,
+        email: str | None = None,
+        phone: str | None = None,
+        tax_number: str | None = None,
+        type: str | None = None,
+        payment_terms_days: int | None = None,
+        addresses: builtins.list[dict[str, Any]] | None = None,
+        notes: str | None = None,
+        currency_code: str | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "name": name,
             "email": email,
             "phone": phone,
@@ -93,7 +95,7 @@ class Contacts:
 
     def send_statement(self, contact_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return self._client.post(f"/contacts/{contact_id}/statement/send", json=body)
+        return self._client.post(f"/contacts/{contact_id}/statement/email", json=body)
 
     def activity(self, contact_id: str) -> Any:
         return self._client.get(f"/contacts/{contact_id}/activity")
@@ -115,16 +117,16 @@ class AsyncContacts:
     async def list(
         self,
         *,
-        search: Optional[str] = None,
-        type: Optional[str] = None,
-        from_date: Optional[str] = None,
-        to_date: Optional[str] = None,
-        sort_by: Optional[str] = None,
-        sort_order: Optional[str] = None,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
+        search: str | None = None,
+        type: str | None = None,
+        from_date: str | None = None,
+        to_date: str | None = None,
+        sort_by: str | None = None,
+        sort_order: str | None = None,
+        page: int | None = None,
+        limit: int | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "search": search,
             "type": type,
             "from": from_date,
@@ -140,16 +142,16 @@ class AsyncContacts:
         self,
         *,
         name: str,
-        email: Optional[str] = None,
-        phone: Optional[str] = None,
-        tax_number: Optional[str] = None,
-        type: Optional[str] = None,
-        payment_terms_days: Optional[int] = None,
-        addresses: Optional[List[Dict[str, Any]]] = None,
-        notes: Optional[str] = None,
-        currency_code: Optional[str] = None,
+        email: str | None = None,
+        phone: str | None = None,
+        tax_number: str | None = None,
+        type: str | None = None,
+        payment_terms_days: int | None = None,
+        addresses: builtins.list[dict[str, Any]] | None = None,
+        notes: str | None = None,
+        currency_code: str | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "name": name,
             "email": email,
             "phone": phone,
@@ -189,7 +191,7 @@ class AsyncContacts:
 
     async def send_statement(self, contact_id: str, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
-        return await self._client.post(f"/contacts/{contact_id}/statement/send", json=body)
+        return await self._client.post(f"/contacts/{contact_id}/statement/email", json=body)
 
     async def activity(self, contact_id: str) -> Any:
         return await self._client.get(f"/contacts/{contact_id}/activity")

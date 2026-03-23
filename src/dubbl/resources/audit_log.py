@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -19,12 +20,12 @@ class AuditLog:
     def list(
         self,
         *,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
-        action: Optional[str] = None,
-        entity_type: Optional[str] = None,
+        page: int | None = None,
+        limit: int | None = None,
+        action: str | None = None,
+        entity_type: str | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "page": page,
             "limit": limit,
             "action": action,
@@ -33,7 +34,9 @@ class AuditLog:
         return self._client.get("/audit-log", params=params)
 
     def export(self, **params: Any) -> Any:
-        return self._client.get("/audit-log/export", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return self._client.get(
+            "/audit-log/export", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
 
 class AsyncAuditLog:
@@ -45,12 +48,12 @@ class AsyncAuditLog:
     async def list(
         self,
         *,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
-        action: Optional[str] = None,
-        entity_type: Optional[str] = None,
+        page: int | None = None,
+        limit: int | None = None,
+        action: str | None = None,
+        entity_type: str | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "page": page,
             "limit": limit,
             "action": action,
@@ -59,4 +62,6 @@ class AsyncAuditLog:
         return await self._client.get("/audit-log", params=params)
 
     async def export(self, **params: Any) -> Any:
-        return await self._client.get("/audit-log/export", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/audit-log/export", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )

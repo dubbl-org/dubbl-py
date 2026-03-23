@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -30,7 +31,9 @@ class Invitations:
         return self._client.delete(f"/invitations/{invitation_id}")
 
     def get_info(self, **params: Any) -> Any:
-        return self._client.get("/invitations/info", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return self._client.get(
+            "/invitations/info", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     def accept(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
@@ -44,7 +47,9 @@ class AsyncInvitations:
         self._client = client
 
     async def list(self, **params: Any) -> Any:
-        return await self._client.get("/invitations", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/invitations", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     async def create(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
@@ -57,7 +62,9 @@ class AsyncInvitations:
         return await self._client.delete(f"/invitations/{invitation_id}")
 
     async def get_info(self, **params: Any) -> Any:
-        return await self._client.get("/invitations/info", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/invitations/info", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     async def accept(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}

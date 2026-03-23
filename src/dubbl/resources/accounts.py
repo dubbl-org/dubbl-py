@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -19,12 +20,12 @@ class Accounts:
     def list(
         self,
         *,
-        search: Optional[str] = None,
-        type: Optional[str] = None,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
+        search: str | None = None,
+        type: str | None = None,
+        page: int | None = None,
+        limit: int | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {"search": search, "type": type, "page": page, "limit": limit}
+        params: dict[str, Any] = {"search": search, "type": type, "page": page, "limit": limit}
         return self._client.get("/accounts", params=params)
 
     def create(
@@ -33,12 +34,12 @@ class Accounts:
         code: str,
         name: str,
         type: str,
-        sub_type: Optional[str] = None,
-        parent_id: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        description: Optional[str] = None,
+        sub_type: str | None = None,
+        parent_id: str | None = None,
+        currency_code: str | None = None,
+        description: str | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "code": code,
             "name": name,
             "type": type,
@@ -53,16 +54,16 @@ class Accounts:
         self,
         account_id: str,
         *,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        from_date: Optional[str] = None,
-        to_date: Optional[str] = None,
-        entry_type: Optional[str] = None,
-        sort_by: Optional[str] = None,
-        sort_order: Optional[str] = None,
+        page: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        from_date: str | None = None,
+        to_date: str | None = None,
+        entry_type: str | None = None,
+        sort_by: str | None = None,
+        sort_order: str | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "page": page,
             "limit": limit,
             "search": search,
@@ -91,12 +92,12 @@ class AsyncAccounts:
     async def list(
         self,
         *,
-        search: Optional[str] = None,
-        type: Optional[str] = None,
-        page: Optional[int] = None,
-        limit: Optional[int] = None,
+        search: str | None = None,
+        type: str | None = None,
+        page: int | None = None,
+        limit: int | None = None,
     ) -> Any:
-        params: Dict[str, Any] = {"search": search, "type": type, "page": page, "limit": limit}
+        params: dict[str, Any] = {"search": search, "type": type, "page": page, "limit": limit}
         return await self._client.get("/accounts", params=params)
 
     async def create(
@@ -105,12 +106,12 @@ class AsyncAccounts:
         code: str,
         name: str,
         type: str,
-        sub_type: Optional[str] = None,
-        parent_id: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        description: Optional[str] = None,
+        sub_type: str | None = None,
+        parent_id: str | None = None,
+        currency_code: str | None = None,
+        description: str | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "code": code,
             "name": name,
             "type": type,

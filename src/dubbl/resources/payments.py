@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import builtins
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -26,13 +28,13 @@ class Payments:
         type: str,
         date: str,
         amount: Any,
-        method: Optional[str] = None,
-        reference: Optional[str] = None,
-        notes: Optional[str] = None,
-        bank_account_id: Optional[str] = None,
-        allocations: Optional[List[Dict[str, Any]]] = None,
+        method: str | None = None,
+        reference: str | None = None,
+        notes: str | None = None,
+        bank_account_id: str | None = None,
+        allocations: builtins.list[dict[str, Any]] | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "contactId": contact_id,
             "type": type,
             "date": date,
@@ -76,13 +78,13 @@ class AsyncPayments:
         type: str,
         date: str,
         amount: Any,
-        method: Optional[str] = None,
-        reference: Optional[str] = None,
-        notes: Optional[str] = None,
-        bank_account_id: Optional[str] = None,
-        allocations: Optional[List[Dict[str, Any]]] = None,
+        method: str | None = None,
+        reference: str | None = None,
+        notes: str | None = None,
+        bank_account_id: str | None = None,
+        allocations: builtins.list[dict[str, Any]] | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "contactId": contact_id,
             "type": type,
             "date": date,

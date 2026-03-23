@@ -1,7 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TypeVar, Generic
-from dataclasses import dataclass, field
 
+from dataclasses import dataclass
+from typing import Any, Dict, Generic, TypeVar
 
 T = TypeVar("T")
 
@@ -9,7 +9,8 @@ T = TypeVar("T")
 @dataclass
 class PaginatedResponse(Generic[T]):
     """Paginated API response."""
-    items: List[T]
+
+    items: list[T]
     total: int
     page: int
     limit: int
@@ -19,9 +20,10 @@ class PaginatedResponse(Generic[T]):
 @dataclass
 class RequestOptions:
     """Per-request options."""
-    timeout: Optional[float] = None
-    headers: Optional[Dict[str, str]] = None
-    params: Optional[Dict[str, Any]] = None
+
+    timeout: float | None = None
+    headers: dict[str, str] | None = None
+    params: dict[str, Any] | None = None
 
 
 QueryParams = Dict[str, Any]

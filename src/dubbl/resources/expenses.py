@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import builtins
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -23,11 +25,11 @@ class Expenses:
         self,
         *,
         title: str,
-        description: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        items: Optional[List[Dict[str, Any]]] = None,
+        description: str | None = None,
+        currency_code: str | None = None,
+        items: builtins.list[dict[str, Any]] | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "title": title,
             "description": description,
             "currencyCode": currency_code,
@@ -58,10 +60,14 @@ class Expenses:
         return self._client.post(f"/expenses/{expense_id}/pay")
 
     def counts(self, **params: Any) -> Any:
-        return self._client.get("/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return self._client.get(
+            "/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     def receipt_url(self, **params: Any) -> Any:
-        return self._client.get("/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return self._client.get(
+            "/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
 
 class AsyncExpenses:
@@ -77,11 +83,11 @@ class AsyncExpenses:
         self,
         *,
         title: str,
-        description: Optional[str] = None,
-        currency_code: Optional[str] = None,
-        items: Optional[List[Dict[str, Any]]] = None,
+        description: str | None = None,
+        currency_code: str | None = None,
+        items: builtins.list[dict[str, Any]] | None = None,
     ) -> Any:
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "title": title,
             "description": description,
             "currencyCode": currency_code,
@@ -112,7 +118,11 @@ class AsyncExpenses:
         return await self._client.post(f"/expenses/{expense_id}/pay")
 
     async def counts(self, **params: Any) -> Any:
-        return await self._client.get("/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/expenses/counts", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     async def receipt_url(self, **params: Any) -> Any:
-        return await self._client.get("/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/expenses/receipt-url", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )

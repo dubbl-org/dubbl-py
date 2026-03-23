@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -17,7 +18,9 @@ class PurchaseRequisitions:
         self._client = client
 
     def list(self, **params: Any) -> Any:
-        return self._client.get("/purchase-requisitions", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return self._client.get(
+            "/purchase-requisitions", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     def create(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}
@@ -50,7 +53,9 @@ class AsyncPurchaseRequisitions:
         self._client = client
 
     async def list(self, **params: Any) -> Any:
-        return await self._client.get("/purchase-requisitions", params={_to_camel(k): v for k, v in params.items() if v is not None})
+        return await self._client.get(
+            "/purchase-requisitions", params={_to_camel(k): v for k, v in params.items() if v is not None}
+        )
 
     async def create(self, **kwargs: Any) -> Any:
         body = {_to_camel(k): v for k, v in kwargs.items() if v is not None}

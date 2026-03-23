@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any, Dict, Optional, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .._base_client import AsyncAPIClient, SyncAPIClient
@@ -23,7 +24,9 @@ class EmailConfig:
         return self._client.patch("/email-config", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
 
     def test(self, **kwargs: Any) -> Any:
-        return self._client.post("/email-config/test", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return self._client.post(
+            "/email-config/test", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
 
 class AsyncEmailConfig:
@@ -36,7 +39,11 @@ class AsyncEmailConfig:
         return await self._client.get("/email-config")
 
     async def update(self, **kwargs: Any) -> Any:
-        return await self._client.patch("/email-config", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.patch(
+            "/email-config", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
 
     async def test(self, **kwargs: Any) -> Any:
-        return await self._client.post("/email-config/test", json={_to_camel(k): v for k, v in kwargs.items() if v is not None})
+        return await self._client.post(
+            "/email-config/test", json={_to_camel(k): v for k, v in kwargs.items() if v is not None}
+        )
